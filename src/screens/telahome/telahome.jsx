@@ -1,5 +1,5 @@
 
-import styles from './telaHome.module.css';''
+import styles from './telahome.module.css';''
 
 function Home(){
     return (
