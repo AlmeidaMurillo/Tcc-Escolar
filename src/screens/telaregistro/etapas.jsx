@@ -62,6 +62,7 @@ function Etapas() {
                 </div>
             </header>
             <main className={styles.mainFormContainer}>
+                
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Adicione seu e-mail</label>
