@@ -2,13 +2,17 @@ import styles from "./telaregistro.module.css"
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Registro() {
 
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        document.title = "Digite seu CPF ou CNPJ";
+    }, []);
 
 
     const handleChange = (e) => {

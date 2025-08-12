@@ -9,6 +9,10 @@ export default function Inicial() {
   const [isVisible, setIsVisible] = useState({});
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Mercado Pago - A conta que mais rende do Brasil";
+  }, []);
+
   const handleClicklogo = () => {
     if (window.location.pathname === "/") {
       window.location.reload();
