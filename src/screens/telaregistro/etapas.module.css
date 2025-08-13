@@ -318,6 +318,63 @@ button:hover:not(:disabled) {
   .logoheadermobile {
     display: block;
   }
+
+  .form {
+    padding: 40px 40px 40px 40px;
+  }
+
+  .progressBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    user-select: none;
+    padding: 0rem;
+  }
+
+  .progressStep {
+    position: relative;
+    font-weight: 600;
+    font-size: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    white-space: nowrap;
+  }
+
+  .progressStep:first-child {
+    padding-left: 0;
+    padding-right: 1rem;
+    text-align: left;
+  }
+
+  .progressStep:nth-child(2) {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .progressStep:last-child {
+    padding-left: 1rem;
+    padding-right: 0;
+    text-align: right;
+  }
+
+  .progressStepCompleted {
+    color: var(--success);
+    font-weight: 700;
+  }
+
+  .progressStepCompleted::after {
+    background: var(--success);
+  }
+
+  .progressStepActive {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.5rem;
+  }
+
 }
 
 @media (min-resolution: 3dppx) and (hover: hover) and (pointer: fine) {
