@@ -62,6 +62,7 @@ function Etapas() {
             setCheckedBirth(true);
             if (ageValid) {
                 alert("Conta enviada para análise!");
+                navigate("/analise");
             }
             setLoading(false);
         }, 800);

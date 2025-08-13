@@ -1,20 +1,16 @@
-import styles from "./telalogin.module.css"
+import styles from "./analise.module.css"
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-function Login() {
+function Analise() {
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        document.title = "Digite seu CPF, e-mail ou telefone para iniciar sessão";
+        document.title = "Dados Em Processo De Análise, Aguarde a Aprovação Para Iniciar Sessão";
     }, []);
-
-    const handleClickCriarConta = () => {
-        navigate("/registro");
-    };
 
     const handleClicklogo = () => {
         if (window.location.pathname === "/") {
@@ -48,34 +44,8 @@ function Login() {
                     </nav>
                 </div>
             </header>
-
-            <div className={styles.content}>
-                <div className={styles.left}>
-                    <h1>Digite seu CPF, e-mail ou telefone para iniciar sessão</h1>
-                </div>
-                <div className={styles.right}>
-                    <div className={styles.formBox}>
-                        <label>CPF, e-mail ou telefone</label>
-                        <input type="text" />
-
-                        <div className={styles.actionRow}>
-                            <button className={styles.btnContinuar}>Continuar</button>
-                            <button className={styles.criarConta} onClick={handleClickCriarConta}>Criar conta</button>
-                        </div>
-                    </div>
-                    <a href="#" className={styles.help}>Preciso de ajuda</a>
-                </div>
-            </div>
-            <footer className={styles.footer}>
-                <div className={styles.footerLeft}>
-                    <a href="#">Como cuidamos da sua privacidade</a> - Copyright © 1999-2025 Ebazar.com.br LTDA.
-                </div>
-                <div className={styles.footerRight}>
-                    Protegido por reCAPTCHA - <a href="#">Privacidade</a> - <a href="#">Condições</a>
-                </div>
-            </footer>
         </div>
     );
 }
 
-export default Login;
+export default Analise;
