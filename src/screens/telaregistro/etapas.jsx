@@ -254,7 +254,7 @@ function Etapas() {
                 aria-invalid={checkedBirth && !ageValid}
               />
               <p className={styles.errorMessage}>
-                {checkedBirth && ageValid === false ? "Você precisa ter ≥ 16 anos." : "\u00A0"}
+                {checkedBirth && ageValid === false ? "Você precisa ter 16 anos ou mais para criar uma conta." : "\u00A0"}
               </p>
             </>
           )}
