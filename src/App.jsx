@@ -11,6 +11,7 @@ const Analise = lazy(() => import("./screens/telaregistro/analise"));
 const Home = lazy(() => import("./screens/telahome/telahome"));
 const LoginAdmin = lazy(() => import("./screens/telaadmin/loginadmin"));
 const DashboardAdmin = lazy(() => import("./screens/telaadmin/dashboardadmin"));
+const ClientesAdmin = lazy(() => import("./screens/telaadmin/clientesadmin"));
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
 
           <Route path="/admin/loginadmin" element={<LoginAdmin />} />
           <Route path="/admin/dashboardadmin" element={<DashboardAdmin />} />
+          <Route path="/admin/clientesadmin" element={<ClientesAdmin />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
