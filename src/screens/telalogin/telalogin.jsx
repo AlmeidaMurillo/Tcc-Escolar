@@ -2,14 +2,17 @@ import styles from "./telalogin.module.css"
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login() {
 
     const navigate = useNavigate();
+    const [mostrarSenha, setMostrarSenha] = useState(false);
 
     useEffect(() => {
-        document.title = "Digite seu CPF, e-mail ou telefone para iniciar sessão";
+        document.title = "Digite seu CPF ou CNPJ e Senha para iniciar sessão";
     }, []);
 
     const handleClickCriarConta = () => {
@@ -51,16 +54,35 @@ function Login() {
 
             <div className={styles.content}>
                 <div className={styles.left}>
-                    <h1>Digite seu CPF, e-mail ou telefone para iniciar sessão</h1>
+                    <h1>Digite seu CPF ou CNPJ e Senha para iniciar sessão</h1>
                 </div>
                 <div className={styles.right}>
                     <div className={styles.formBox}>
-                        <label>CPF, e-mail ou telefone</label>
+                        <label>CPF ou CNPJ</label>
                         <input type="text" />
 
+                        <label>Senha</label>
+                        <div className={styles.senhaContainer}>
+                            <input
+                                type={mostrarSenha ? "text" : "password"}
+                                className={styles.inputSenha}
+                            />
+                            <span
+                                className={styles.olho}
+                                onClick={() => setMostrarSenha(!mostrarSenha)}
+                            >
+                                {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        </div>
+
                         <div className={styles.actionRow}>
-                            <button className={styles.btnContinuar}>Continuar</button>
-                            <button className={styles.criarConta} onClick={handleClickCriarConta}>Criar conta</button>
+                            <button className={styles.btnAcessar}>Acessar</button>
+                            <button
+                                className={styles.criarConta}
+                                onClick={handleClickCriarConta}
+                            >
+                                Criar conta
+                            </button>
                         </div>
                     </div>
                     <a href="#" className={styles.help}>Preciso de ajuda</a>

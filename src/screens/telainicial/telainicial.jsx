@@ -206,7 +206,7 @@ export default function Inicial() {
               <img
                 src={carouselImages[prevIndex]}
                 alt={`Slide ${prevIndex + 1}`}
-                className={`${styles.sideImage} ${styles.leftImage}`}
+                className={styles.sideImage}
                 aria-hidden="true"
               />
               <div
@@ -242,7 +242,7 @@ export default function Inicial() {
               <img
                 src={carouselImages[nextIndex]}
                 alt={`Slide ${nextIndex + 1}`}
-                className={`${styles.sideImage} ${styles.rightImage}`}
+                className={styles.sideImage}
                 aria-hidden="true"
               />
 

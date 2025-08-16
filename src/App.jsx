@@ -9,6 +9,8 @@ const Etapas = lazy(() => import("./screens/telaregistro/etapas"));
 const Login = lazy(() => import("./screens/telalogin/telalogin"));
 const Analise = lazy(() => import("./screens/telaregistro/analise"));
 const Home = lazy(() => import("./screens/telahome/telahome"));
+const LoginAdmin = lazy(() => import("./screens/telaadmin/loginadmin"));
+const DashboardAdmin = lazy(() => import("./screens/telaadmin/dashboardadmin"));
 
 function App() {
   return (
@@ -20,7 +22,10 @@ function App() {
           <Route path="/registro" element={<Registro />} />
           <Route path="/registro/etapas" element={<Etapas />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/analise" element={<Analise />} />
+          <Route path="/registro/etapas/analise" element={<Analise />} />
+
+          <Route path="/admin/loginadmin" element={<LoginAdmin />} />
+          <Route path="/admin/dashboardadmin" element={<DashboardAdmin />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

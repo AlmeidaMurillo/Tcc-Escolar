@@ -55,12 +55,15 @@
 
 .nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .navLeft {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 2rem;
 }
@@ -71,7 +74,8 @@
 }
 
 .logoheader {
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
   height: auto;
   cursor: pointer;
   display: block;
@@ -88,14 +92,16 @@
 
 .mainFormContainer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  padding: 70px;
+  gap: 2rem;
+  padding: 5vw;
   box-sizing: border-box;
 }
 
 .form {
   background-color: white;
-  padding: 50px 50px 50px 50px;
+  padding: 3rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
@@ -106,7 +112,7 @@
 
 .title {
   margin-bottom: 35px;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   text-align: center;
   font-weight: 700;
   color: var(--primary);
@@ -115,39 +121,24 @@
 
 .progressBar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
   user-select: none;
-  padding: 0 1.5rem;
+  width: 100%;
 }
 
 .progressStep {
   position: relative;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: clamp(0.5rem, 1vw, 0.9rem);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--gray-light);
   white-space: nowrap;
-}
-
-.progressStep:first-child {
-  padding-left: 0;
-  padding-right: 1.5rem;
-  text-align: left;
-}
-
-.progressStep:nth-child(2) {
-  flex-grow: 1;
+  flex: 1 1 auto;
   text-align: center;
-  padding: 0 1rem;
-}
-
-.progressStep:last-child {
-  padding-left: 1.5rem;
-  padding-right: 0;
-  text-align: right;
 }
 
 .progressStep::after {
@@ -170,7 +161,6 @@
 .progressStepActive {
   color: var(--primary);
   font-weight: 700;
-  font-size: 0.8rem;
 }
 
 .progressStepActive::after {
@@ -201,6 +191,8 @@ input {
   transition: border-color 0.25s ease;
   outline-offset: 2px;
   outline-color: transparent;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input:focus {
@@ -229,12 +221,14 @@ input:focus {
 .buttons {
   margin-top: 2.5rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
+  width: 100%;
 }
 
 button {
-  flex: 1;
+  flex: 1 1 150px;
   padding: 14px 0;
   font-weight: 700;
   font-size: 1.1rem;
@@ -290,21 +284,13 @@ button:hover:not(:disabled) {
   animation: spin 1s linear infinite, gradientShift 2s ease infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;
   }
-
   50% {
     background-position: 100% 50%;
   }
-
   100% {
     background-position: 0% 50%;
   }
@@ -314,135 +300,28 @@ button:hover:not(:disabled) {
   .logoheader {
     display: none;
   }
-
   .logoheadermobile {
     display: block;
   }
-
   .form {
-    padding: 40px 40px 40px 40px;
+    padding: 2rem;
   }
-
   .progressBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    user-select: none;
-    padding: 0rem;
+    padding: 0;
   }
-
-  .progressStep {
-    position: relative;
-    font-weight: 600;
-    font-size: 0.5rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--gray-light);
-    white-space: nowrap;
-  }
-
-  .progressStep:first-child {
-    padding-left: 0;
-    padding-right: 1rem;
-    text-align: left;
-  }
-
-  .progressStep:nth-child(2) {
-    flex-grow: 1;
-    text-align: center;
-    padding: 0 1rem;
-  }
-
-  .progressStep:last-child {
-    padding-left: 1rem;
-    padding-right: 0;
-    text-align: right;
-  }
-
-  .progressStepCompleted {
-    color: var(--success);
-    font-weight: 700;
-  }
-
-  .progressStepCompleted::after {
-    background: var(--success);
-  }
-
-  .progressStepActive {
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 0.5rem;
-  }
-
 }
 
 @media (min-resolution: 3dppx) and (hover: hover) and (pointer: fine) {
   .logoheader {
     display: none;
   }
-
   .logoheadermobile {
     display: block;
   }
-
-  .progressBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    user-select: none;
-    padding: 0 1.5rem;
-  }
-
-  .progressStep {
-    position: relative;
-    font-weight: 600;
-    font-size: 0.5rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--gray-light);
-    white-space: nowrap;
-  }
-
-  .progressStep:first-child {
-    padding-left: 0;
-    padding-right: 1.5rem;
-    text-align: left;
-  }
-
-  .progressStep:nth-child(2) {
-    flex-grow: 1;
-    text-align: center;
-    padding: 0 1rem;
-  }
-
-  .progressStep:last-child {
-    padding-left: 1.5rem;
-    padding-right: 0;
-    text-align: right;
-  }
-
-  .progressStepCompleted {
-    color: var(--success);
-    font-weight: 700;
-  }
-
-  .progressStepCompleted::after {
-    background: var(--success);
-  }
-
-  .progressStepActive {
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 0.5rem;
-  }
-
   .form {
     max-width: 350px;
-    padding: 20px 30px 40px 30px;
+    padding: 1.5rem 2rem;
   }
-
   input {
     font-size: 0.9rem;
     padding: 10px 14px;
@@ -453,18 +332,8 @@ button:hover:not(:disabled) {
   .logoheader {
     display: none;
   }
-
   .logoheadermobile {
     display: block;
-  }
-
-  .progressBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    user-select: none;
-    padding: 0 1rem;
   }
 }
 
@@ -472,52 +341,10 @@ button:hover:not(:disabled) {
   .logoheader {
     display: none;
   }
-
   .logoheadermobile {
     display: block;
   }
-
-  .progressBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    user-select: none;
-    padding: 0 0rem;
-  }
-
   .progressStep {
-    position: relative;
-    font-weight: 600;
-    font-size: 0.4rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--gray-light);
-    white-space: nowrap;
-  }
-
-  .progressStep:first-child {
-    padding-left: 0;
-    padding-right: 1rem;
-    text-align: left;
-  }
-
-  .progressStep:nth-child(2) {
-    flex-grow: 1;
-    text-align: center;
-    padding: 0 1rem;
-  }
-
-  .progressStep:last-child {
-    padding-left: 1rem;
-    padding-right: 0;
-    text-align: right;
-  }
-
-
-  .progressStepActive {
-    color: var(--primary);
-    font-weight: 700;
     font-size: 0.4rem;
   }
 }
