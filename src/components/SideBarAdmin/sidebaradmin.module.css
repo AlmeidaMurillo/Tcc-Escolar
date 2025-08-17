@@ -1,5 +1,6 @@
 .sidebar {
   width: 16rem;
+  position: fixed;
   background-color: #222;
   border-right: 1px solid #444;
   min-height: 100vh;
@@ -114,6 +115,7 @@
 @media (max-width: 1024px) {
   .sidebar {
     width: 100%;
+    position: relative;
     border-right: none;
     border-bottom: 1px solid #444;
     min-height: auto;
