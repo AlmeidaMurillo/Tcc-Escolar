@@ -39,11 +39,53 @@
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: clamp(1rem, 2vw, 2rem);
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
-.actionBtn {
+.selectAllLabel {
   display: flex;
   align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.selectAllCheckbox {
+  accent-color: #2563eb;
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.filtersRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.filterInput {
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #333;
+  background: #191919;
+  color: #fff;
+  font-size: 1rem;
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.actionBtn,
+.cardBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
   padding: 0.7rem 2rem;
   border: none;
@@ -83,17 +125,28 @@
   margin-top: 1rem;
 }
 
+.card,
+.cardBody,
+.cardHeader,
+.cardActions,
+.cardField,
+.cardEmail {
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
 .card {
   background: #222;
   border-radius: 1rem;
   padding: clamp(1rem, 3vw, 2rem) clamp(0.7rem, 2vw, 1.5rem);
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
-  min-width: 0;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 
 .cardHeader {
@@ -101,6 +154,7 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .avatar {
@@ -114,6 +168,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .cardTitle {
@@ -125,6 +180,8 @@
   font-size: 1rem;
   color: #ccc;
   word-break: break-all;
+  max-width: 160px;
+  overflow-wrap: anywhere;
 }
 
 .cardCheckbox {
@@ -139,6 +196,9 @@
 
 .cardBody {
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .cardField {
@@ -177,10 +237,11 @@
   display: flex;
   gap: 1rem;
   margin-top: auto;
+  flex-wrap: wrap;
 }
 
 .cardBtn {
-  flex: 1;
+  flex: 1 1 120px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -192,6 +253,7 @@
   cursor: pointer;
   justify-content: center;
   transition: background 0.2s;
+  min-width: 44px;
 }
 
 .cardBtn.approve {
@@ -233,18 +295,83 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px),
+(max-width: 500px) {
   .card {
     padding: 1rem 0.4rem;
-    min-width: 0;
     max-width: 100vw;
   }
+
   .cardsGrid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+
   .actions {
+    flex-direction: column !important;
+    gap: 0.7rem;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .actionBtn {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .filtersRow {
     flex-direction: column;
     gap: 0.7rem;
+    width: 100%;
+  }
+
+  .filterInput {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cardHeader {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem;
+  }
+
+  .cardActions {
+    flex-direction: column !important;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .cardBtn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cardField {
+    flex-direction: column !important;
+    gap: 0.15rem;
+    align-items: flex-start;
+  }
+
+  .cardEmail {
+    max-width: 100vw;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 350px) {
+  .card {
+    padding: 0.4rem 0.1rem;
+    font-size: 0.93rem;
+  }
+
+  .cardTitle,
+  .cardEmail,
+  .cardField strong,
+  .statusComplete,
+  .statusPending {
+    font-size: 0.95rem;
   }
 }

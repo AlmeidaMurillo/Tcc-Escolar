@@ -8,11 +8,10 @@
 }
 
 .mainContent {
-  margin-left: 16rem;
   flex: 1;
   padding: 2rem;
-  overflow-x: auto;
-  min-width: 0; 
+  margin-left: 16rem;
+  min-width: 0;
 }
 
 .pageHeader {
@@ -259,23 +258,20 @@
   }
 
   .mainContent {
-    padding: 0rem;
+    padding: 1rem;
     margin-left: 0rem;
   }
 
   .menuLabel {
     display: none;
   }
+
   .overviewGrid {
     grid-template-columns: 1fr;
   }
 
   .statsGrid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .mainContent {
-    padding: 1rem;
   }
 
   .activityCard,
@@ -288,6 +284,28 @@
 @media (max-width: 768px) {
   .dashboardContainer {
     flex-direction: column;
+  }
+
+  .mainContent {
+    margin-left: 0rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .mainContent {
+    justify-content: center;
+    margin-left: 0rem;
+  }
+
+  .overviewGrid {
+    grid-template-columns: 1fr;
+    justify-content: center;
+    padding: 0rem;
   }
 
   .statsGrid {

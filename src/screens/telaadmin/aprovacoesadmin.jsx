@@ -26,54 +26,17 @@ const initialUsers = [
     status: "pending",
     selected: false,
   },
-  {
-    name: "Pedro Costa",
-    initials: "PC",
-    email: "pedro.costa@email.com",
-    cpf: "555.666.777-88",
-    telefone: "(21) 98888-7777",
-    data: "20/03/2024",
-    documentos: "Pendentes",
-    status: "pending",
-    selected: false,
-  },
-  {
-    name: "Pedro Costa",
-    initials: "PC",
-    email: "pedro.costa@email.com",
-    cpf: "555.666.777-88",
-    telefone: "(21) 98888-7777",
-    data: "20/03/2024",
-    documentos: "Pendentes",
-    status: "pending",
-    selected: false,
-  },
-  {
-    name: "Pedro Costa",
-    initials: "PC",
-    email: "pedro.costa@email.com",
-    cpf: "555.666.777-88",
-    telefone: "(21) 98888-7777",
-    data: "20/03/2024",
-    documentos: "Pendentes",
-    status: "pending",
-    selected: false,
-  },
-  {
-    name: "Pedro Costa",
-    initials: "PC",
-    email: "pedro.costa@email.com",
-    cpf: "555.666.777-88",
-    telefone: "(21) 98888-7777",
-    data: "20/03/2024",
-    documentos: "Pendentes",
-    status: "pending",
-    selected: false,
-  },
 ];
+
+function formatDateBRtoISO(dateBR) {
+  const [d, m, y] = dateBR.split("/");
+  return `${y}-${m}-${d}`;
+}
 
 function AprovacoesAdmin() {
   const [users, setUsers] = useState(initialUsers);
+  const [searchName, setSearchName] = useState("");
+  const [searchDate, setSearchDate] = useState("");
 
   const hasSelected = users.some(u => u.selected);
   const allSelected = users.every(u => u.selected);
@@ -114,6 +77,15 @@ function AprovacoesAdmin() {
     alert("Exportação simulada.");
   }
 
+  const filteredUsers = users.filter(user => {
+    const matchesName = user.name.toLowerCase().includes(searchName.toLowerCase());
+    if (searchDate) {
+      const userDateISO = formatDateBRtoISO(user.data);
+      return matchesName && userDateISO === searchDate;
+    }
+    return matchesName;
+  });
+
   return (
     <div className={styles.container}>
       <SidebarAdmin />
@@ -126,7 +98,7 @@ function AprovacoesAdmin() {
         </div>
         <div className={styles.actions}>
           <button
-            className={styles.actionBtn + " " + styles.selected}
+            className={`${styles.actionBtn} ${styles.selected}`}
             onClick={handleApproveSelected}
             disabled={!hasSelected}
           >
@@ -134,7 +106,7 @@ function AprovacoesAdmin() {
             Aprovar Selecionados
           </button>
           <button
-            className={styles.actionBtn + " " + styles.reject}
+            className={`${styles.actionBtn} ${styles.reject}`}
             onClick={handleRejectSelected}
             disabled={!hasSelected}
           >
@@ -142,24 +114,40 @@ function AprovacoesAdmin() {
             Rejeitar Selecionados
           </button>
           <button
-            className={styles.actionBtn + " " + styles.export}
+            className={`${styles.actionBtn} ${styles.export}`}
             onClick={handleExport}
           >
             <FaFileExport />
             Exportar Lista
           </button>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+          <label className={styles.selectAllLabel}>
             <input
               type="checkbox"
               checked={allSelected}
               onChange={handleSelectAll}
-              style={{ accentColor: "#2563eb", width: "1.3rem", height: "1.3rem" }}
+              className={styles.selectAllCheckbox}
             />
             Selecionar Todos
           </label>
         </div>
+        <div className={styles.filtersRow}>
+          <input
+            className={styles.filterInput}
+            type="text"
+            placeholder="Pesquisar nome..."
+            value={searchName}
+            onChange={e => setSearchName(e.target.value)}
+          />
+          <input
+            className={styles.filterInput}
+            type="date"
+            value={searchDate}
+            onChange={e => setSearchDate(e.target.value)}
+            placeholder="Filtrar por data"
+          />
+        </div>
         <div className={styles.cardsGrid}>
-          {users.map((user, i) => (
+          {filteredUsers.map((user, i) => (
             <div className={styles.card} key={i}>
               <input
                 type="checkbox"
@@ -223,10 +211,8 @@ function AprovacoesAdmin() {
               <div className={styles.cardActions}>
                 <button
                   className={
-                    styles.cardBtn +
-                    " " +
-                    styles.approve +
-                    (user.status === "complete" ? "" : " " + styles.disabled)
+                    `${styles.cardBtn} ${styles.approve}` +
+                    (user.status === "complete" ? "" : ` ${styles.disabled}`)
                   }
                   disabled={user.status !== "complete"}
                   onClick={() => {
@@ -243,7 +229,7 @@ function AprovacoesAdmin() {
                   Aprovar
                 </button>
                 <button
-                  className={styles.cardBtn + " " + styles.reject}
+                  className={`${styles.cardBtn} ${styles.reject}`}
                   onClick={() =>
                     setUsers(prev =>
                       prev.map((u, idx) =>
@@ -256,7 +242,7 @@ function AprovacoesAdmin() {
                   Rejeitar
                 </button>
                 <button
-                  className={styles.cardBtn + " " + styles.view}
+                  className={`${styles.cardBtn} ${styles.view}`}
                   title="Visualizar"
                   onClick={() => alert(`Visualizar dados de ${user.name}`)}
                 >
