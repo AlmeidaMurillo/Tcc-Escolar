@@ -36,7 +36,7 @@ function LoginAdmin() {
     const senha = event.target.password.value;
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("mysql://root:zXMesnLbaYJejAyhrXltrvtyZNyMRFAv@mysql.railway.internal:3306/railway", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, senha }),
