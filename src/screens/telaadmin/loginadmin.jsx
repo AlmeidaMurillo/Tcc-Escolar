@@ -36,7 +36,7 @@ function LoginAdmin() {
     const senha = event.target.password.value;
 
     try {
-      const response = await fetch("mysql://root:zXMesnLbaYJejAyhrXltrvtyZNyMRFAv@crossover.proxy.rlwy.net:48271/railway", {
+      const response = await fetch("https://tcc-escolar-backend-production.up.railway.app/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, senha }),
