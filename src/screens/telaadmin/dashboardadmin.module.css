@@ -1,0 +1,314 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+  background-color: #111;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  flex-direction: row;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 16rem;
+  min-width: 0;
+}
+
+.pageHeader {
+  margin-bottom: 1.5rem;
+}
+
+.pageTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.pageDescription {
+  color: #a1a1aa;
+  margin-bottom: 2rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.statCardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.statTitle {
+  color: #a1a1aa;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.statIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.45rem;
+}
+
+.statIconBlue {
+  background-color: #2563eb;
+}
+
+.statIconYellow {
+  background-color: #ffd600;
+  color: #18181b;
+}
+
+.statIconGreen {
+  background-color: #22c55e;
+}
+
+.statIconPurple {
+  background-color: #a855f7;
+}
+
+.statChangePositive {
+  color: #22c55e;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.statChangeNeutral {
+  color: #ffd600;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.statDescription {
+  color: #a1a1aa;
+  font-size: 0.85rem;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.activityCard,
+.quickActionsCard {
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.cardTitle {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #333;
+  border-radius: 0.5rem;
+}
+
+.activityIcon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+}
+
+.activityIconBlue {
+  background-color: #2563eb;
+}
+
+.activityIconGreen {
+  background-color: #22c55e;
+}
+
+.activityIconYellow {
+  background-color: #ffd600;
+  color: #18181b;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityTitle {
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.activityDescription {
+  color: #a1a1aa;
+  font-size: 0.85rem;
+  display: block;
+}
+
+.quickActionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.quickActionButton {
+  padding: 1.1rem 0.7rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.quickActionYellow {
+  background-color: #ffd600;
+  color: #18181b;
+}
+
+.quickActionYellow:hover {
+  background-color: #ffe066;
+}
+
+.quickActionBlue {
+  background-color: #2563eb;
+}
+
+.quickActionBlue:hover {
+  background-color: #1d4ed8;
+}
+
+.quickActionGreen {
+  background-color: #22c55e;
+}
+
+.quickActionGreen:hover {
+  background-color: #16a34a;
+}
+
+.quickActionPurple {
+  background-color: #a855f7;
+}
+
+.quickActionPurple:hover {
+  background-color: #9333ea;
+}
+
+.quickActionIcon {
+  font-size: 1.5rem;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+
+  .dashboardContainer {
+    flex-direction: column;
+  }
+
+  .mainContent {
+    padding: 1rem;
+    margin-left: 0rem;
+  }
+
+  .menuLabel {
+    display: none;
+  }
+
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .activityCard,
+  .quickActionsCard {
+    padding: 1rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    flex-direction: column;
+  }
+
+  .mainContent {
+    margin-left: 0rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .mainContent {
+    justify-content: center;
+    margin-left: 0rem;
+  }
+
+  .overviewGrid {
+    grid-template-columns: 1fr;
+    justify-content: center;
+    padding: 0rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

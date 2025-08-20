@@ -1,0 +1,199 @@
+.container {
+  min-height: 100vh;
+  background-color: #111;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  padding: clamp(0.5rem, 2vw, 2rem);
+  background-color: #111;
+  overflow-x: auto;
+  margin-left: 16rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pageHeader {
+  margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
+}
+
+.pageTitle {
+  font-size: clamp(1.3rem, 2.2vw, 2rem);
+  font-weight: bold;
+  color: white;
+}
+
+.clientesControls {
+  display: flex;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  margin-bottom: 1.2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.inputWrapper {
+  flex: 1 1 200px;
+  min-width: 150px;
+}
+
+.inputSearch,
+.selectStatus {
+  width: 100%;
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  padding: clamp(0.6rem, 1.5vw, 0.85rem) clamp(0.8rem, 2vw, 1rem);
+  color: white;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  box-sizing: border-box;
+}
+
+.exportButton,
+.newClientButton {
+  border: none;
+  padding: clamp(0.6rem, 1.5vw, 0.85rem) clamp(1rem, 2vw, 1.3rem);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.exportButton {
+  background-color: #2563eb;
+  color: white;
+}
+
+.exportButton:hover {
+  background-color: #1d4ed8;
+}
+
+.newClientButton {
+  background-color: #ffd600;
+  color: #18181b;
+}
+
+.newClientButton:hover {
+  background-color: #ffe066;
+}
+
+.tableContainer {
+  background-color: #222;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: clamp(0.6rem, 1.5vw, 0.95rem) clamp(0.6rem, 1.5vw, 1rem);
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  border-bottom: 1px solid #333;
+  white-space: nowrap;
+}
+
+.table th {
+  color: #a1a1aa;
+  font-weight: 600;
+}
+
+.clienteInfo {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.4rem, 1vw, 0.75rem);
+  flex-wrap: wrap;
+}
+
+.clienteAvatar {
+  width: clamp(1.8rem, 3vw, 2.1rem);
+  height: clamp(1.8rem, 3vw, 2.1rem);
+  background-color: #ffd600;
+  color: #18181b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+}
+
+.statusAtivo,
+.statusBloqueado {
+  padding: 0.3rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: clamp(0.75rem, 1vw, 0.95rem);
+  display: inline-block;
+}
+
+.statusAtivo {
+  background-color: #22c55e;
+}
+
+.statusBloqueado {
+  background-color: #ef4444;
+}
+
+.acaoBtns {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.acaoBtn {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  padding: 0.45rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  transition: color 0.2s;
+}
+
+.acaoBtn:hover {
+  color: #ffd600;
+}
+
+.tableFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  width: 100%;
+  min-width: 500px;   
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+}
