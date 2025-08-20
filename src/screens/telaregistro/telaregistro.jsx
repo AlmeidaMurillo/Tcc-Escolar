@@ -42,7 +42,7 @@ function Registro() {
     setLoading(true);
 
     try {
-      const resCheck = await fetch(`http://localhost:3000/usuarios/check-cpf/${onlyNumbers}`);
+      const resCheck = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/check-cpf/${onlyNumbers}`);
       const data = await resCheck.json();
 
       if (data.exists) {

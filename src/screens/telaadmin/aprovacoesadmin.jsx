@@ -13,11 +13,10 @@ function AprovacoesAdmin() {
   const [searchName, setSearchName] = useState("");
   const [searchDate, setSearchDate] = useState("");
 
-  // Buscar usuários do backend
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await fetch("http://localhost:3000/usuarios/pendentes");
+        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes");
         if (!res.ok) throw new Error("Erro ao buscar usuários");
         const data = await res.json();
         const usersWithStatus = data.map(u => ({
@@ -50,7 +49,7 @@ function AprovacoesAdmin() {
   async function handleApproveSelected() {
     const selectedUsers = users.filter(u => u.selected);
     for (let u of selectedUsers) {
-      await fetch(`http://localhost:3000/usuarios/${u.id}/aprovar`, { method: "PATCH" });
+      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/aprovar`, { method: "PATCH" });
     }
     setUsers(prev => prev.map(u => u.selected ? { ...u, status: "approved", situacao: "aprovado", selected: false } : u));
   }
@@ -58,7 +57,7 @@ function AprovacoesAdmin() {
   async function handleRejectSelected() {
     const selectedUsers = users.filter(u => u.selected);
     for (let u of selectedUsers) {
-      await fetch(`http://localhost:3000/usuarios/${u.id}/rejeitar`, { method: "PATCH" });
+      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/rejeitar`, { method: "PATCH" });
     }
     setUsers(prev => prev.map(u => u.selected ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
   }
@@ -132,11 +131,11 @@ function AprovacoesAdmin() {
               </div>
               <div className={styles.cardActions}>
                 <button className={`${styles.cardBtn} ${styles.approve}`} onClick={async () => {
-                  await fetch(`http://localhost:3000/usuarios/${user.id}/aprovar`, { method: "PATCH" });
+                  await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/aprovar`, { method: "PATCH" });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "approved", situacao: "aprovado", selected: false } : u));
                 }}><FaCheck /> Aprovar</button>
                 <button className={`${styles.cardBtn} ${styles.reject}`} onClick={async () => {
-                  await fetch(`http://localhost:3000/usuarios/${user.id}/rejeitar`, { method: "PATCH" });
+                  await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/rejeitar`, { method: "PATCH" });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
                 }}><FaTimes /> Rejeitar</button>
                 <button className={`${styles.cardBtn} ${styles.view}`} title="Visualizar" onClick={() => alert(`Visualizar dados de ${user.nome}`)}><FaEye /></button>

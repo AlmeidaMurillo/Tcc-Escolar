@@ -90,7 +90,7 @@ function Etapas() {
         setCheckedName(true);
         if (isValidName(name)) {
           try {
-            const res = await fetch(`http://localhost:3000/usuarios/check-nome/${encodeURIComponent(name)}`);
+            const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/check-nome/${encodeURIComponent(name)}`);
             const data = await res.json();
             if (data.exists) {
               setNameValid(false);
@@ -117,7 +117,7 @@ function Etapas() {
         setCheckedEmail(true);
         if (emailValid) {
           try {
-            const res = await fetch(`http://localhost:3000/usuarios/check-email/${encodeURIComponent(email)}`);
+            const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/check-email/${encodeURIComponent(email)}`);
             const data = await res.json();
             if (data.exists) {
               setLoading(false);
@@ -132,7 +132,7 @@ function Etapas() {
         setCheckedPhone(true);
         if (phoneValid) {
           try {
-            const res = await fetch(`http://localhost:3000/usuarios/check-telefone/${encodeURIComponent(phone)}`);
+            const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/check-telefone/${encodeURIComponent(phone)}`);
             const data = await res.json();
             if (data.exists) {
               setLoading(false);
@@ -160,7 +160,7 @@ function Etapas() {
           const cpf = localStorage.getItem("usuarioCPF");
           if (!cpf) throw new Error("CPF não encontrado");
 
-          const res = await fetch(`http://localhost:3000/usuarios`, {
+          const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
