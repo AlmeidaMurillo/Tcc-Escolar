@@ -296,6 +296,7 @@ button:hover:not(:disabled) {
   }
 }
 
+<<<<<<< HEAD
 .passwordWrapper {
   position: relative;
   display: flex;
@@ -315,6 +316,8 @@ button:hover:not(:disabled) {
   color: #555;
 }
 
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
 @media (max-width: 480px) {
   .logoheader {
     display: none;

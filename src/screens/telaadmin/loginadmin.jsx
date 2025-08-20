@@ -8,8 +8,11 @@ import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 function LoginAdmin() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+<<<<<<< HEAD
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
 
     useEffect(() => {
         document.title = "Mercado Pago - Login Admin";
@@ -27,6 +30,7 @@ function LoginAdmin() {
         setShowPassword(!showPassword);
     };
 
+<<<<<<< HEAD
     const handleSubmit = async (event) => {
         event.preventDefault();
         setErrorMessage("");
@@ -55,6 +59,10 @@ function LoginAdmin() {
             setLoading(false);
             setErrorMessage("Erro ao conectar com o servidor");
         }
+=======
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Evita que o formulário faça qualquer ação
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
     };
 
     return (
@@ -81,7 +89,10 @@ function LoginAdmin() {
                     </nav>
                 </div>
             </header>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
             <main className={styles.loginContainer}>
                 <div className={styles.loginCard}>
                     <form className={styles.loginForm} data-testid="form-login" onSubmit={handleSubmit}>
@@ -90,8 +101,11 @@ function LoginAdmin() {
                             <p className={styles.formSubtitle}>Entre com suas credenciais para acessar o painel</p>
                         </div>
 
+<<<<<<< HEAD
                         {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
 
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
                         <div className={styles.fieldGroup}>
                             <label htmlFor="username" className={styles.fieldLabel}>
                                 Login
@@ -136,9 +150,14 @@ function LoginAdmin() {
                             type="submit"
                             className={styles.submitButton}
                             data-testid="button-submit"
+<<<<<<< HEAD
                             disabled={loading}
                         >
                             {loading ? "Carregando..." : "Acessar"}
+=======
+                        >
+                            Acessar
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
                         </button>
                     </form>
 

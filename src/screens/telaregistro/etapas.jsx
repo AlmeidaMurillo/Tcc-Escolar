@@ -3,7 +3,10 @@ import styles from "./etapas.module.css";
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
 
 const forbiddenWords = [
   "racista",
@@ -17,16 +20,22 @@ const forbiddenWords = [
 function Etapas() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(null);
   const [checkedName, setCheckedName] = useState(false);
 
+<<<<<<< HEAD
   const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(null);
   const [checkedPassword, setCheckedPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(null);
   const [checkedEmail, setCheckedEmail] = useState(false);
@@ -52,6 +61,7 @@ function Etapas() {
     return true;
   }, []);
 
+<<<<<<< HEAD
   const isValidPassword = useCallback((value) => {
     if (!value) return false;
     if (value.length < 6) return false;
@@ -65,6 +75,8 @@ function Etapas() {
     if (!cpf) navigate("/registro");
   }, [navigate]);
 
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
   useEffect(() => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(email ? regex.test(email) : null);
@@ -77,13 +89,19 @@ function Etapas() {
 
   useEffect(() => {
     if (!birthDate) return setAgeValid(null);
+<<<<<<< HEAD
     const birth = new Date(birthDate), now = new Date();
+=======
+    const birth = new Date(birthDate),
+      now = new Date();
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
     let age = now.getFullYear() - birth.getFullYear();
     const m = now.getMonth() - birth.getMonth();
     if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
     setAgeValid(age >= 16);
   }, [birthDate]);
 
+<<<<<<< HEAD
   const nextStep = useCallback(async () => {
     setLoading(true);
 
@@ -104,10 +122,21 @@ function Etapas() {
           } catch (err) {
             console.error(err);
           }
+=======
+  const nextStep = useCallback(() => {
+    setLoading(true);
+    setTimeout(() => {
+      if (step === 1) {
+        setCheckedName(true);
+        if (isValidName(name)) {
+          setNameValid(true);
+          setStep(2);
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
         } else {
           setNameValid(false);
         }
       } else if (step === 2) {
+<<<<<<< HEAD
         setCheckedPassword(true);
         if (isValidPassword(password)) {
           setPasswordValid(true);
@@ -192,6 +221,28 @@ function Etapas() {
           console.error("Erro ao salvar dados:", err);
           alert("Erro ao salvar dados. Tente novamente.");
         }
+=======
+        setCheckedEmail(true);
+        if (emailValid) setStep(3);
+      } else if (step === 3) {
+        setCheckedPhone(true);
+        if (phoneValid) setStep(4);
+      }
+      setLoading(false);
+    }, 800);
+  }, [step, name, emailValid, phoneValid, isValidName]);
+
+  const prevStep = () => step > 1 && setStep(step - 1);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setCheckedBirth(true);
+      if (ageValid) {
+        alert("Conta enviada para análise!");
+        navigate("/registro/etapas/analise");
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
       }
       setLoading(false);
     }, 800);
@@ -200,6 +251,7 @@ function Etapas() {
   const handleEnterPress = useCallback(
     (event) => {
       if (event.key === "Enter") {
+<<<<<<< HEAD
         if (step < 5) {
           event.preventDefault();
           if (step === 1 && name) nextStep();
@@ -210,6 +262,17 @@ function Etapas() {
       }
     },
     [step, name, password, email, phone, nextStep]
+=======
+        if (step < 4) {
+          event.preventDefault();
+          if (step === 1 && name) nextStep();
+          else if (step === 2 && email) nextStep();
+          else if (step === 3 && phone) nextStep();
+        }
+      }
+    },
+    [step, name, email, phone, nextStep]
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
   );
 
   useEffect(() => {
@@ -257,14 +320,25 @@ function Etapas() {
             Preencha os dados para criar sua conta
           </h1>
           <div className={styles.progressBar}>
+<<<<<<< HEAD
             {["Nome", "Senha", "E-mail", "Celular", "Nascimento"].map((label, i) => (
+=======
+            {["Nome", "E-mail", "Celular", "Nascimento"].map((label, i) => (
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
               <div
                 key={i}
                 className={`
                   ${styles.progressStep}
+<<<<<<< HEAD
                   ${step === i + 1
                     ? styles.progressStepActive
                     : step > i + 1
+=======
+                  ${
+                    step === i + 1
+                      ? styles.progressStepActive
+                      : step > i + 1
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
                       ? styles.progressStepCompleted
                       : ""
                   }
@@ -298,6 +372,7 @@ function Etapas() {
 
           {step === 2 && (
             <>
+<<<<<<< HEAD
               <label htmlFor="password">Senha</label>
               <div className={styles.passwordWrapper}>
                 <input
@@ -327,6 +402,8 @@ function Etapas() {
 
           {step === 3 && (
             <>
+=======
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
               <label htmlFor="email">E-mail</label>
               <input
                 id="email"
@@ -344,7 +421,11 @@ function Etapas() {
             </>
           )}
 
+<<<<<<< HEAD
           {step === 4 && (
+=======
+          {step === 3 && (
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
             <>
               <label htmlFor="phone">Celular (DDD + número)</label>
               <input
@@ -364,7 +445,11 @@ function Etapas() {
             </>
           )}
 
+<<<<<<< HEAD
           {step === 5 && (
+=======
+          {step === 4 && (
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
             <>
               <label htmlFor="birthDate">Data de Nascimento</label>
               <input
@@ -394,6 +479,7 @@ function Etapas() {
                 Voltar
               </button>
             )}
+<<<<<<< HEAD
             {step < 5 ? (
               <button
                 type="button"
@@ -402,6 +488,13 @@ function Etapas() {
                   loading ||
                   (step === 1 ? !name : step === 2 ? !password : step === 3 ? !email : !phone)
                 }
+=======
+            {step < 4 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                disabled={loading || (step === 1 ? !name : step === 2 ? !email : !phone)}
+>>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
               >
                 Próximo
               </button>
