@@ -209,6 +209,13 @@
     background-color: rgba(26, 115, 232, 0.08);
 }
 
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+  display: block;
+}
+
 @media (max-width: 768px) {
     .content {
         flex-direction: column;
