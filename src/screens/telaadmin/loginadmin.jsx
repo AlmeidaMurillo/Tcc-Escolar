@@ -1,4 +1,4 @@
-import styles from "./telalogin.module.css";
+import styles from "./loginadmin.module.css";
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
