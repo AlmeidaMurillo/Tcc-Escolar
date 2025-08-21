@@ -5,14 +5,7 @@ import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const forbiddenWords = [
-  "racista",
-  "idiota",
-  "burro",
-  "imbecil",
-  "palavrão1",
-  "palavrão2"
-];
+const forbiddenWords = ["racista", "idiota", "burro", "imbecil", "palavrão1", "palavrão2"];
 
 function Etapas() {
   const navigate = useNavigate();
@@ -20,24 +13,21 @@ function Etapas() {
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(null);
   const [checkedName, setCheckedName] = useState(false);
-
   const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(null);
   const [checkedPassword, setCheckedPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(null);
   const [checkedEmail, setCheckedEmail] = useState(false);
-
+  const [emailExists, setEmailExists] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneValid, setPhoneValid] = useState(null);
   const [checkedPhone, setCheckedPhone] = useState(false);
-
+  const [phoneExists, setPhoneExists] = useState(false);
   const [birthDate, setBirthDate] = useState("");
   const [ageValid, setAgeValid] = useState(null);
   const [checkedBirth, setCheckedBirth] = useState(false);
-
   const [loading, setLoading] = useState(false);
 
   const isValidName = useCallback((value) => {
@@ -76,7 +66,9 @@ function Etapas() {
 
   useEffect(() => {
     if (!birthDate) return setAgeValid(null);
-    const birth = new Date(birthDate), now = new Date();
+    const [year, month, day] = birthDate.split("-").map(Number);
+    const birth = new Date(year, month - 1, day);
+    const now = new Date();
     let age = now.getFullYear() - birth.getFullYear();
     const m = now.getMonth() - birth.getMonth();
     if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
@@ -120,9 +112,11 @@ function Etapas() {
             const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/check-email/${encodeURIComponent(email)}`);
             const data = await res.json();
             if (data.exists) {
+              setEmailExists(true);
               setLoading(false);
               return;
             }
+            setEmailExists(false);
             setStep(4);
           } catch (err) {
             console.error(err);
@@ -135,9 +129,11 @@ function Etapas() {
             const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/check-telefone/${encodeURIComponent(phone)}`);
             const data = await res.json();
             if (data.exists) {
+              setPhoneExists(true);
               setLoading(false);
               return;
             }
+            setPhoneExists(false);
             setStep(5);
           } catch (err) {
             console.error(err);
@@ -159,8 +155,7 @@ function Etapas() {
         try {
           const cpf = localStorage.getItem("usuarioCPF");
           if (!cpf) throw new Error("CPF não encontrado");
-
-          const res = await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios`, {
+          await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -169,21 +164,9 @@ function Etapas() {
               email,
               senha: password,
               telefone: phone,
-              data_nascimento: birthDate,
+              data_nascimento: birthDate
             }),
           });
-
-          if (res.status === 409) {
-            alert("Este CPF já está cadastrado.");
-            setLoading(false);
-            return;
-          }
-
-          if (!res.ok) throw new Error("Erro ao criar usuário");
-
-          const usuario = await res.json();
-          localStorage.setItem("usuarioId", usuario.id);
-
           alert("Conta criada e enviada para análise!");
           navigate("/registro/etapas/analise");
         } catch (err) {
@@ -212,10 +195,16 @@ function Etapas() {
 
   useEffect(() => {
     window.addEventListener("keydown", handleEnterPress);
-    return () => {
-      window.removeEventListener("keydown", handleEnterPress);
-    };
+    return () => window.removeEventListener("keydown", handleEnterPress);
   }, [handleEnterPress]);
+
+  const today = (() => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${dd}`;
+  })();
 
   const handleClicklogo = () =>
     window.location.pathname === "/" ? window.location.reload() : navigate("/");
@@ -232,18 +221,8 @@ function Etapas() {
           <nav className={styles.nav}>
             <div className={styles.navLeft}>
               <div className={styles.divlogo}>
-                <img
-                  src={logoheader}
-                  alt=""
-                  className={styles.logoheader}
-                  onClick={handleClicklogo}
-                />
-                <img
-                  src={logoheadermobile}
-                  alt=""
-                  className={styles.logoheadermobile}
-                  onClick={handleClicklogo}
-                />
+                <img src={logoheader} alt="" className={styles.logoheader} onClick={handleClicklogo} />
+                <img src={logoheadermobile} alt="" className={styles.logoheadermobile} onClick={handleClicklogo} />
               </div>
             </div>
           </nav>
@@ -251,28 +230,17 @@ function Etapas() {
       </header>
       <main className={styles.mainFormContainer}>
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
-          <h1 className={styles.title}>
-            Preencha os dados para criar sua conta
-          </h1>
+          <h1 className={styles.title}>Preencha os dados para criar sua conta</h1>
           <div className={styles.progressBar}>
             {["Nome", "Senha", "E-mail", "Celular", "Nascimento"].map((label, i) => (
               <div
                 key={i}
-                className={`
-                  ${styles.progressStep}
-                  ${step === i + 1
-                    ? styles.progressStepActive
-                    : step > i + 1
-                      ? styles.progressStepCompleted
-                      : ""
-                  }
-                `}
+                className={`${styles.progressStep} ${step === i + 1 ? styles.progressStepActive : step > i + 1 ? styles.progressStepCompleted : ""}`}
               >
                 {label}
               </div>
             ))}
           </div>
-
           {step === 1 && (
             <>
               <label htmlFor="name">Nome</label>
@@ -286,14 +254,8 @@ function Etapas() {
                 required
                 aria-invalid={checkedName && !nameValid}
               />
-              <p className={styles.errorMessage}>
-                {checkedName && nameValid === false
-                  ? "Nome inválido ou contém palavras proibidas."
-                  : "\u00A0"}
-              </p>
             </>
           )}
-
           {step === 2 && (
             <>
               <label htmlFor="password">Senha</label>
@@ -308,21 +270,12 @@ function Etapas() {
                   required
                   aria-invalid={checkedPassword && !passwordValid}
                 />
-                <span
-                  className={styles.eyeIcon}
-                  onClick={() => setShowPassword(!showPassword)}
-                >
+                <span className={styles.eyeIcon} onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
-              <p className={styles.errorMessage}>
-                {checkedPassword && passwordValid === false
-                  ? "A senha deve ter pelo menos 6 caracteres, incluir letras e números."
-                  : "\u00A0"}
-              </p>
             </>
           )}
-
           {step === 3 && (
             <>
               <label htmlFor="email">E-mail</label>
@@ -331,17 +284,13 @@ function Etapas() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value.trim())}
-                className={checkedEmail ? (emailValid ? styles.valid : styles.invalid) : ""}
+                className={checkedEmail ? (emailValid && !emailExists ? styles.valid : styles.invalid) : ""}
                 placeholder="seu@email.com"
                 required
-                aria-invalid={checkedEmail && !emailValid}
+                aria-invalid={checkedEmail && (!emailValid || emailExists)}
               />
-              <p className={styles.errorMessage}>
-                {checkedEmail && emailValid === false ? "E-mail inválido." : "\u00A0"}
-              </p>
             </>
           )}
-
           {step === 4 && (
             <>
               <label htmlFor="phone">Celular (DDD + número)</label>
@@ -350,18 +299,14 @@ function Etapas() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                className={checkedPhone ? (phoneValid ? styles.valid : styles.invalid) : ""}
+                className={checkedPhone ? (phoneValid && !phoneExists ? styles.valid : styles.invalid) : ""}
                 placeholder="11999999999"
                 maxLength={11}
                 required
-                aria-invalid={checkedPhone && !phoneValid}
+                aria-invalid={checkedPhone && (!phoneValid || phoneExists)}
               />
-              <p className={styles.errorMessage}>
-                {checkedPhone && phoneValid === false ? "DDD + 9 dígitos." : "\u00A0"}
-              </p>
             </>
           )}
-
           {step === 5 && (
             <>
               <label htmlFor="birthDate">Data de Nascimento</label>
@@ -371,24 +316,15 @@ function Etapas() {
                 value={birthDate}
                 onChange={(e) => setBirthDate(e.target.value)}
                 className={checkedBirth ? (ageValid ? styles.valid : styles.invalid) : ""}
-                max={new Date().toISOString().split("T")[0]}
+                max={today}
                 required
                 aria-invalid={checkedBirth && !ageValid}
               />
-              <p className={styles.errorMessage}>
-                {checkedBirth && ageValid === false ? "Você precisa ter 16 anos ou mais para criar uma conta." : "\u00A0"}
-              </p>
             </>
           )}
-
           <div className={styles.buttons}>
             {step > 1 && (
-              <button
-                type="button"
-                className={styles.buttonBack}
-                onClick={prevStep}
-                disabled={loading}
-              >
+              <button type="button" className={styles.buttonBack} onClick={prevStep} disabled={loading}>
                 Voltar
               </button>
             )}
@@ -396,10 +332,7 @@ function Etapas() {
               <button
                 type="button"
                 onClick={nextStep}
-                disabled={
-                  loading ||
-                  (step === 1 ? !name : step === 2 ? !password : step === 3 ? !email : !phone)
-                }
+                disabled={loading || (step === 1 ? !name : step === 2 ? !password : step === 3 ? !email : !phone)}
               >
                 Próximo
               </button>

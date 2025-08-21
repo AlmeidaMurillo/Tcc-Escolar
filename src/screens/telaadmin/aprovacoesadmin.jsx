@@ -3,11 +3,6 @@ import { FaCheck, FaTimes, FaEye, FaFileExport, FaExclamationTriangle } from "re
 import styles from "./aprovacoesadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 
-function formatDateBRtoISO(dateBR) {
-  const [d, m, y] = dateBR.split("/");
-  return `${y}-${m}-${d}`;
-}
-
 function AprovacoesAdmin() {
   const [users, setUsers] = useState([]);
   const [searchName, setSearchName] = useState("");
@@ -68,10 +63,12 @@ function AprovacoesAdmin() {
 
   const filteredUsers = users.filter(user => {
     const matchesName = user.nome.toLowerCase().includes(searchName.toLowerCase());
+
     if (searchDate) {
-      const userDateISO = formatDateBRtoISO(user.dataSolicitacao.split(" ")[0].split("/").join("/"));
+      const userDateISO = new Date(user.datasolicitacao).toISOString().split("T")[0];
       return matchesName && userDateISO === searchDate;
     }
+
     return matchesName;
   });
 
@@ -121,11 +118,11 @@ function AprovacoesAdmin() {
                 <div className={styles.cardField}><strong>Situação:</strong>
                   <span className={
                     user.status === "approved" ? styles.statusComplete :
-                    user.status === "rejected" ? styles.statusRejected : styles.statusPending
+                      user.status === "rejected" ? styles.statusRejected : styles.statusPending
                   }>
                     {user.status === "approved" ? <><FaCheck style={{ verticalAlign: "middle" }} /> Aprovado</> :
-                    user.status === "rejected" ? <><FaTimes style={{ verticalAlign: "middle" }} /> Rejeitado</> :
-                    <><FaExclamationTriangle style={{ verticalAlign: "middle" }} /> Em Análise</>}
+                      user.status === "rejected" ? <><FaTimes style={{ verticalAlign: "middle" }} /> Rejeitado</> :
+                        <><FaExclamationTriangle style={{ verticalAlign: "middle" }} /> Em Análise</>}
                   </span>
                 </div>
               </div>

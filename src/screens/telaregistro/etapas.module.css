@@ -296,28 +296,29 @@ button:hover:not(:disabled) {
   }
 }
 
-<<<<<<< HEAD
 .passwordWrapper {
   position: relative;
-  display: flex;
-  align-items: center;
+  display: block; 
+  width: 100%;
 }
 
 .passwordWrapper input {
   width: 100%;
-  padding-right: 40px; 
+  padding-right: 40px;
+  box-sizing: border-box;
 }
 
 .eyeIcon {
   position: absolute;
+  top: 50%;
   right: 10px;
+  transform: translateY(-50%);
   cursor: pointer;
   font-size: 1.2rem;
   color: #555;
+  z-index: 1;
 }
 
-=======
->>>>>>> 0d675033de9b6dc22a4450790f4ab1999209a66f
 @media (max-width: 480px) {
   .logoheader {
     display: none;

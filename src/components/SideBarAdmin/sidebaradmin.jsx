@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { FaChartBar, FaUserFriends, FaCheckCircle, FaClipboardList } from "react-icons/fa";
 import styles from "./sidebaradmin.module.css";
 
-function SidebarAdmin({ badgeAprovacoes = 6 }) {
+function SidebarAdmin() {
   const navigate = useNavigate();
+  const [badgeAprovacoes, setBadgeAprovacoes] = useState(0);
 
   const handleClicklogo = () => {
     if (window.location.pathname === "/admin/dashboardadmin") {
@@ -15,6 +16,20 @@ function SidebarAdmin({ badgeAprovacoes = 6 }) {
       navigate("/admin/dashboardadmin");
     }
   };
+
+  useEffect(() => {
+    async function fetchBadge() {
+      try {
+        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count");
+        const data = await res.json();
+        setBadgeAprovacoes(data.total);
+      } catch (err) {
+        console.error("Erro ao buscar badge de aprovações:", err);
+      }
+    }
+
+    fetchBadge();
+  }, []);
 
   return (
     <aside className={styles.sidebar}>
