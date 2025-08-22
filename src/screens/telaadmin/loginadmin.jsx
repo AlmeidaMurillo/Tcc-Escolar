@@ -3,23 +3,17 @@ import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 
-function Login() {
+function LoginAdmin() {
   const navigate = useNavigate();
-  const [cpf, setCpf] = useState("");
-  const [senha, setSenha] = useState("");
-  const [mostrarSenha, setMostrarSenha] = useState(false);
-  const [erroCpf, setErroCpf] = useState("");
-  const [erroSenha, setErroSenha] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    document.title = "Digite seu CPF ou CNPJ e Senha para iniciar sessão";
+    document.title = "Mercado Pago - Login Admin";
   }, []);
-
-  const handleClickCriarConta = () => {
-    navigate("/registro");
-  };
 
   const handleClicklogo = () => {
     if (window.location.pathname === "/") {
@@ -29,35 +23,37 @@ function Login() {
     }
   };
 
-  const handleLogin = async () => {
-    setErroCpf("");
-    setErroSenha("");
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setErrorMessage("");
+    setLoading(true);
+
+    const usuario = event.target.username.value;
+    const senha = event.target.password.value;
 
     try {
       const response = await fetch("https://tcc-escolar-backend-production.up.railway.app/loginadmin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cpf, senha }),
+        body: JSON.stringify({ usuario, senha }),
       });
 
       const data = await response.json();
+      setLoading(false);
 
       if (!response.ok) {
-        if (data.error === "CPF não encontrado") {
-          setErroCpf("CPF não encontrado");
-        } else if (data.error === "Senha incorreta") {
-          setErroSenha("Senha incorreta");
-        }
-        return;
+        setErrorMessage(data.error || "Erro ao fazer login");
+      } else {
+        navigate("/admin/dashboardadmin");
       }
-
-      if (data.situacao === "aprovado") {
-        navigate("/home");
-      } else if (data.situacao === "analise") {
-        navigate("/login/analise");
-      }
-    } catch (err) {
-      console.error("Erro ao logar:", err);
+    } catch (error) {
+      console.error("Erro ao conectar com o servidor:", error);
+      setLoading(false);
+      setErrorMessage("Erro ao conectar com o servidor");
     }
   };
 
@@ -86,67 +82,84 @@ function Login() {
         </div>
       </header>
 
-      <div className={styles.content}>
-        <div className={styles.left}>
-          <h1>Digite seu CPF ou CNPJ e Senha para iniciar sessão</h1>
-        </div>
-        <div className={styles.right}>
-          <div className={styles.formBox}>
-            <label>CPF ou CNPJ</label>
-            <input
-              type="text"
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
-            />
-            {erroCpf && <span className={styles.error}>{erroCpf}</span>}
-
-            <label>Senha</label>
-            <div className={styles.senhaContainer}>
-              <input
-                type={mostrarSenha ? "text" : "password"}
-                className={styles.inputSenha}
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-              />
-              <span
-                className={styles.olho}
-                onClick={() => setMostrarSenha(!mostrarSenha)}
-              >
-                {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
-              </span>
+      <main className={styles.loginContainer}>
+        <div className={styles.loginCard}>
+          <form
+            className={styles.loginForm}
+            data-testid="form-login"
+            onSubmit={handleSubmit}
+          >
+            <div className={styles.formHeader}>
+              <h1 className={styles.formTitle}>Acesso Administrativo</h1>
+              <p className={styles.formSubtitle}>
+                Entre com suas credenciais para acessar o painel
+              </p>
             </div>
-            {erroSenha && <span className={styles.error}>{erroSenha}</span>}
 
-            <div className={styles.actionRow}>
-              <button className={styles.btnAcessar} onClick={handleLogin}>
-                Acessar
-              </button>
-              <button
-                className={styles.criarConta}
-                onClick={handleClickCriarConta}
-              >
-                Criar conta
-              </button>
+            {errorMessage && (
+              <div className={styles.errorMessage}>{errorMessage}</div>
+            )}
+
+            <div className={styles.fieldGroup}>
+              <label htmlFor="username" className={styles.fieldLabel}>
+                Login
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className={styles.inputField}
+                placeholder="Digite seu login"
+                required
+                data-testid="input-username"
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label htmlFor="password" className={styles.fieldLabel}>
+                Senha
+              </label>
+              <div className={styles.passwordContainer}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  className={styles.inputField}
+                  placeholder="Digite sua senha"
+                  required
+                  data-testid="input-password"
+                />
+                <button
+                  type="button"
+                  className={styles.passwordToggle}
+                  onClick={togglePasswordVisibility}
+                  data-testid="button-toggle-password"
+                >
+                  {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className={styles.submitButton}
+              data-testid="button-submit"
+              disabled={loading}
+            >
+              {loading ? "Carregando..." : "Acessar"}
+            </button>
+          </form>
+
+          <div className={styles.securityNotice}>
+            <div className={styles.securityContent}>
+              <FaLock size={16} />
+              <span>Conexão segura e criptografada</span>
             </div>
           </div>
-          <a href="#" className={styles.help}>
-            Preciso de ajuda
-          </a>
         </div>
-      </div>
-
-      <footer className={styles.footer}>
-        <div className={styles.footerLeft}>
-          <a href="#">Como cuidamos da sua privacidade</a> - Copyright ©
-          1999-2025 Ebazar.com.br LTDA.
-        </div>
-        <div className={styles.footerRight}>
-          Protegido por reCAPTCHA - <a href="#">Privacidade</a> -{" "}
-          <a href="#">Condições</a>
-        </div>
-      </footer>
+      </main>
     </div>
   );
 }
 
-export default Login;
+export default LoginAdmin;
