@@ -8,7 +8,7 @@ function DashboardAdmin() {
     const [totalAprovados, setTotalAprovados] = useState(0);
 
     useEffect(() => {
-        fetch("http://localhost:3000/usuarios/aprovados/count")
+        fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/aprovados/count")
             .then((res) => res.json())
             .then((data) => {
                 setTotalAprovados(data.total);
