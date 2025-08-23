@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserFriends, FaCheckCircle, FaClock, FaDollarSign, FaUserPlus, FaChartBar, FaDownload } from "react-icons/fa";
 import styles from "./dashboardadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 
 function DashboardAdmin() {
+
+    const [totalAprovados, setTotalAprovados] = useState(0);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/usuarios/aprovados/count")
+            .then((res) => res.json())
+            .then((data) => {
+                setTotalAprovados(data.total);
+            })
+            .catch((err) => {
+                console.error("Erro ao buscar aprovados:", err);
+            });
+    }, []);
+
     return (
         <div className={styles.dashboardContainer}>
             <SidebarAdmin />
@@ -17,7 +31,7 @@ function DashboardAdmin() {
                         <div className={styles.statCardContent}>
                             <div className={styles.statInfo}>
                                 <span className={styles.statTitle}>Total de Clientes</span>
-                                <span className={styles.statValue}>3</span>
+                                <span className={styles.statValue}>{totalAprovados}</span>
                                 <span className={styles.statChangePositive}>+12% <span className={styles.statDescription}>vs mês anterior</span></span>
                             </div>
                             <span className={`${styles.statIcon} ${styles.statIconBlue}`}><FaUserFriends /></span>
