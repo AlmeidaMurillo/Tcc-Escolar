@@ -20,7 +20,8 @@ function AprovacoesAdmin() {
           status: u.situacao === "analise" ? "pending" : u.situacao === "rejeitado" ? "rejected" : "approved",
           initials: u.nome ? u.nome.split(" ").map(n => n[0]).join("") : "",
           dataNascimento: u.data_nascimento ? new Date(u.data_nascimento).toLocaleDateString("pt-BR") : "",
-          dataSolicitacao: u.datasolicitacao ? new Date(u.datasolicitacao).toLocaleString("pt-BR") : ""
+          dataSolicitacao: u.datasolicitacao ? new Date(u.datasolicitacao).toLocaleDateString("pt-BR") : "",
+          dataCriacao: u.datacriacao ? new Date(u.datacriacao).toLocaleString("pt-BR") : ""
         }));
         setUsers(usersWithStatus);
       } catch (err) {
@@ -46,7 +47,7 @@ function AprovacoesAdmin() {
     for (let u of selectedUsers) {
       await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/aprovar`, { method: "PATCH" });
     }
-    setUsers(prev => prev.map(u => u.selected ? { ...u, status: "approved", situacao: "aprovado", selected: false } : u));
+    setUsers(prev => prev.map(u => u.selected ? { ...u, status: "approved", situacao: "aprovado", dataCriacao: new Date().toLocaleString("pt-BR"), selected: false } : u));
   }
 
   async function handleRejectSelected() {
@@ -63,12 +64,10 @@ function AprovacoesAdmin() {
 
   const filteredUsers = users.filter(user => {
     const matchesName = user.nome.toLowerCase().includes(searchName.toLowerCase());
-
     if (searchDate) {
-      const userDateISO = new Date(user.datasolicitacao).toISOString().split("T")[0];
+      const userDateISO = user.datasolicitacao ? new Date(user.datasolicitacao).toISOString().split("T")[0] : "";
       return matchesName && userDateISO === searchDate;
     }
-
     return matchesName;
   });
 
@@ -129,7 +128,7 @@ function AprovacoesAdmin() {
               <div className={styles.cardActions}>
                 <button className={`${styles.cardBtn} ${styles.approve}`} onClick={async () => {
                   await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/aprovar`, { method: "PATCH" });
-                  setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "approved", situacao: "aprovado", selected: false } : u));
+                  setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "approved", situacao: "aprovado", dataCriacao: new Date().toLocaleString("pt-BR"), selected: false } : u));
                 }}><FaCheck /> Aprovar</button>
                 <button className={`${styles.cardBtn} ${styles.reject}`} onClick={async () => {
                   await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/rejeitar`, { method: "PATCH" });

@@ -13,6 +13,10 @@ export default function Inicial() {
     document.title = "Mercado Pago - A conta que mais rende do Brasil";
   }, []);
 
+  useEffect(() => {
+    localStorage.removeItem("usuarioCPF");
+  }, []);
+
   const handleClicklogo = () => {
     if (window.location.pathname === "/") {
       window.location.reload();
