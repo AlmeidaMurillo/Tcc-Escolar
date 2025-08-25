@@ -1,0 +1,171 @@
+.container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(135deg, #FFE600 0%, #FFF3A0 100%);
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.headerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.divlogo {
+  display: inline-block;
+  line-height: 0;
+  max-width: 100%;
+}
+
+.logoheader {
+  width: clamp(120px, 15vw, 200px);
+  height: auto;
+  cursor: pointer;
+  display: block;
+  clip-path: inset(24% 11% 24% 11%);
+}
+
+.logoheadermobile {
+  width: clamp(40px, 8vw, 50px);
+  height: auto;
+  cursor: pointer;
+  clip-path: inset(19% 5% 19% 5%);
+  display: none;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.contentWrapper {
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.analysisCard {
+  background: #fff;
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.iconWrapper {
+  margin-bottom: 1rem;
+}
+
+.iconCircle {
+  width: clamp(40px, 8vw, 60px);
+  height: clamp(40px, 8vw, 60px);
+  border-radius: 50%;
+  background-color: #FF4D4F; /* vermelho para alerta */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.clockIcon {
+  width: 50%;
+  height: auto;
+  stroke: #fff;
+}
+
+.statusTitle {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: bold;
+  margin: 1rem 0;
+  color: #FF4D4F;
+}
+
+.statusMessage p {
+  margin-bottom: 0.5rem;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  color: #333;
+}
+
+.backButton {
+  margin-top: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #FF4D4F;
+  color: #fff;
+  padding: clamp(0.6rem, 1.5vw, 1rem) clamp(0.8rem, 2vw, 1rem);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.backButton i {
+  font-size: clamp(0.6rem, 1.8vw, 0.8rem);
+  margin-right: 0.5rem;
+}
+
+.additionalInfo {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: #555;
+  text-align: center;
+}
+
+.infoIcon {
+  width: clamp(12px, 3vw, 16px);
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  .logoheader {
+    display: none;
+  }
+  .logoheadermobile {
+    display: block;
+  }
+}
+
+@media (min-resolution: 3dppx) and (hover: hover) and (pointer: fine) {
+  .logoheader {
+    display: none;
+  }
+  .logoheadermobile {
+    display: block;
+  }
+}
