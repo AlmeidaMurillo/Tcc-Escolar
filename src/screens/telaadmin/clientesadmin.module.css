@@ -90,9 +90,56 @@
 .tableContainer {
   background-color: #222;
   border-radius: 0.5rem;
-  overflow-x: auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  flex: 0 0 auto;
+  background: #222;
+  border-bottom: 1px solid #333;
+}
+
+.tableBody {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ffd600 #333;
+}
+
+.tableBody::-webkit-scrollbar {
+  width: 10px;
+}
+
+.tableBody::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 10px;
+}
+
+.tableBody::-webkit-scrollbar-thumb {
+  background-color: #ffd600;
+  border-radius: 10px;
+}
+
+.tableFooter {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  width: 100%;
+  min-width: 500px;
+  box-sizing: border-box;
+  border-top: 1px solid #444;
 }
 
 .table {
@@ -171,21 +218,6 @@
 
 .acaoBtn:hover {
   color: #ffd600;
-}
-
-.tableFooter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  background-color: #333;
-  color: #fff;
-  font-size: clamp(0.85rem, 1vw, 1rem);
-  width: 100%;
-  min-width: 500px;   
-  box-sizing: border-box;
 }
 
 @media (max-width: 1024px) {
