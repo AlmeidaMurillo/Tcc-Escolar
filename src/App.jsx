@@ -15,6 +15,7 @@ const Inicial = lazy(() => import("./screens/telainicial/telainicial"));
 const Registro = lazy(() => import("./screens/telaregistro/telaregistro"));
 const Etapas = lazy(() => import("./screens/telaregistro/etapas"));
 const Login = lazy(() => import("./screens/telalogin/telalogin"));
+const RecuperarSenha = lazy(() => import("./screens/telalogin/recuperarsenha"));
 const Analise = lazy(() => import("./screens/telassituacoes/analise"));
 const Reprovado = lazy(() => import("./screens/telassituacoes/reprovado"));
 const Bloqueada = lazy(() => import("./screens/telassituacoes/bloqueada"));
@@ -56,6 +57,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/login/recuperarsenha" element={<RecuperarSenha />} />
           <Route path="/login/analise" element={<Analise />} />
           <Route path="/login/reprovado" element={<Reprovado />} />
           <Route path="/login/bloqueada" element={<Bloqueada />} />

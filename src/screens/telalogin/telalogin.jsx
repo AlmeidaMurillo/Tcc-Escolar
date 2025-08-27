@@ -149,7 +149,7 @@ function Login() {
               <button className={styles.criarConta} onClick={handleClickCriarConta}>Criar conta</button>
             </div>
           </div>
-          <a href="#" className={styles.help}>Preciso de ajuda</a>
+          <a href="#" className={styles.help}>Recuperar Senha ?</a>
         </div>
       </div>
 

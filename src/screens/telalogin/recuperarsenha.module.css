@@ -1,0 +1,307 @@
+.container {
+    min-height: 100vh;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: linear-gradient(135deg, #FFE600 0%, #FFF3A0 100%);
+    padding: 1rem 0;
+}
+
+.headerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navLeft {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.divlogo {
+    display: inline-block;
+    line-height: 0;
+}
+
+.logoheader {
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+    display: block;
+    clip-path: inset(24% 11% 24% 11%);
+}
+
+.logoheadermobile {
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+    clip-path: inset(19% 5% 19% 5%);
+    display: none;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 40px;
+}
+
+.left {
+    max-width: 400px;
+}
+
+.left h1 {
+    font-size: 1.875rem;
+    font-weight: 600;
+}
+
+.help {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.help:hover {
+    text-decoration: underline;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formBox {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 6px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.formBox label {
+    font-size: 0.85rem;
+    color: #444;
+}
+
+.formBox input {
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.formBox input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.senhaContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inputSenha {
+  width: 100%;
+  padding: 8px 35px 8px 8px; 
+  box-sizing: border-box;
+}
+
+.olho {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.olho:hover {
+  color: #000;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    font-size: 0.8rem;
+    color: #555;
+    gap: 8px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.actionRow {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btnAcessar {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 1rem;
+    width: auto;
+    max-width: 100%;
+    text-align: center;
+    border-radius: 6px;
+    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    cursor: pointer;
+    white-space: normal;
+    flex: 1 1 auto;
+}
+
+.btnAcessar:hover {
+    background-color: #1557b0;
+}
+
+.criarConta {
+    background-color: transparent;
+    color: #1a73e8;
+    border: none;
+    padding: 1rem;
+    width: auto;
+    max-width: 100%;
+    text-align: center;
+    border-radius: 6px;
+    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: normal;
+    flex: 1 1 auto;
+}
+
+.criarConta:hover {
+    background-color: rgba(26, 115, 232, 0.08);
+}
+
+.alert {
+  margin-bottom: 15px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.successAlert {
+  background-color: #e0f8e9;
+  color: #2d7a3e;
+  border: 1px solid #2d7a3e;
+}
+
+.errorAlert {
+  background-color: #fdecea;
+  color: #c53030;
+  border: 1px solid #c53030;
+}
+
+.barraContainer {
+  margin-top: 10px;
+}
+
+.barraProgresso {
+  width: 100%;
+  height: 6px;
+  background-color: #ddd;
+  border-radius: 4px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.barraAtiva {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 1s linear;
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .left {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .right {
+        width: 100%;
+        align-items: center;
+    }
+
+    .formBox {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .help {
+        order: 3;
+        display: block;
+        margin-top: 15px;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .logoheader {
+        display: none;
+    }
+
+    .logoheadermobile {
+        display: block;
+    }
+}
+
+@media (min-resolution: 3dppx) and (hover: hover) and (pointer: fine) {
+    .logoheader {
+        display: none;
+    }
+
+    .logoheadermobile {
+        display: block;
+    }
+}
