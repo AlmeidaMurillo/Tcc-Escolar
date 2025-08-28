@@ -3,6 +3,7 @@ import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 
 function RecuperarSenha() {
@@ -15,8 +16,10 @@ function RecuperarSenha() {
   const [erro, setErro] = useState("");
   const [msg, setMsg] = useState("");
   const [tempoRestante, setTempoRestante] = useState(0);
-  const TEMPO_CODIGO = 30;
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
+  const TEMPO_CODIGO = 30;
   const API_BASE = "https://tcc-escolar-backend-production.up.railway.app";
 
   useEffect(() => {
@@ -37,10 +40,18 @@ function RecuperarSenha() {
     }
     try {
       const res = await axios.post(`${API_BASE}/recuperar-senha/enviar-codigo`, { email });
-      setErro("");
-      setMsg(res.data.message);
-      setEtapa("codigo");
-      setTempoRestante(TEMPO_CODIGO);
+      const { situacao, message } = res.data;
+
+      if (situacao === "rejeitado") return navigate("/login/reprovado");
+      if (situacao === "bloqueado") return navigate("/login/bloqueada");
+      if (situacao === "analise") return navigate("/login/analise");
+
+      if (situacao === "aprovado") {
+        setErro("");
+        setMsg(message);
+        setEtapa("codigo");
+        setTempoRestante(TEMPO_CODIGO);
+      }
     } catch (err) {
       setErro(err.response?.data?.error || "Erro ao enviar código");
       setMsg("");
@@ -59,9 +70,14 @@ function RecuperarSenha() {
     }
   };
 
+  const senhaValida = (senha) => {
+    const regex = new RegExp(String.raw`^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~/-]).{8,}$`);
+    return regex.test(senha);
+  };
+
   const redefinirSenha = async () => {
-    if (novaSenha.length < 4) {
-      setErro("A senha deve ter pelo menos 4 caracteres");
+    if (!senhaValida(novaSenha)) {
+      setErro("A senha deve ter no mínimo 8 caracteres, incluindo 1 letra maiúscula, 1 número e 1 caractere especial.");
       setMsg("");
       return;
     }
@@ -157,9 +173,37 @@ function RecuperarSenha() {
             {etapa === "novaSenha" && (
               <>
                 <label>Nova senha</label>
-                <input type="password" value={novaSenha} onChange={e => setNovaSenha(e.target.value)} onKeyPress={handleKeyPress} />
+                <div className={styles.inputWrapper}>
+                  <input
+                    type={mostrarSenha ? "text" : "password"}
+                    value={novaSenha}
+                    onChange={e => setNovaSenha(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                  />
+                  <span
+                    className={styles.eyeIcon}
+                    onClick={() => setMostrarSenha(!mostrarSenha)}
+                  >
+                    {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+
                 <label>Confirmar nova senha</label>
-                <input type="password" value={confirmarSenha} onChange={e => setConfirmarSenha(e.target.value)} onKeyPress={handleKeyPress} />
+                <div className={styles.inputWrapper}>
+                  <input
+                    type={mostrarConfirmarSenha ? "text" : "password"}
+                    value={confirmarSenha}
+                    onChange={e => setConfirmarSenha(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                  />
+                  <span
+                    className={styles.eyeIcon}
+                    onClick={() => setMostrarConfirmarSenha(!mostrarConfirmarSenha)}
+                  >
+                    {mostrarConfirmarSenha ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+
                 <button className={styles.btnAcessar} onClick={redefinirSenha}>Redefinir senha</button>
               </>
             )}
