@@ -36,10 +36,19 @@ function Etapas() {
 
   const isValidPassword = (value) => {
     const erros = [];
-    if (!value) erros.push("A senha é obrigatória.");
-    if (value.length < 6) erros.push("A senha deve ter no mínimo 6 caracteres.");
-    if (!/[A-Za-z]/.test(value)) erros.push("A senha deve conter pelo menos uma letra.");
-    if (!/\d/.test(value)) erros.push("A senha deve conter pelo menos um número.");
+    if (!value) {
+      erros.push("A senha é obrigatória.");
+      return erros;
+    }
+
+    const regex = new RegExp(
+      String.raw`^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~/-]).{8,}$`
+    );
+
+    if (!regex.test(value)) {
+      erros.push("A senha deve ter no mínimo 8 caracteres, incluindo 1 letra maiúscula, 1 número e 1 caractere especial.");
+    }
+
     return erros;
   };
 
@@ -224,11 +233,29 @@ function Etapas() {
             <>
               <label htmlFor="password">Senha</label>
               <div className={styles.passwordWrapper}>
-                <input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => { setPassword(e.target.value); setPasswordErrors([]); }} placeholder="Mínimo 6 caracteres, incluindo letras e números" />
-                <span className={styles.eyeIcon} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordErrors([]);
+                  }}
+                  placeholder="Mínimo 8 caracteres, incluindo 1 maiúscula, 1 número e 1 especial"
+                />
+                <span
+                  className={styles.eyeIcon}
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
               </div>
               {passwordErrors.length > 0 && (
-                <div className={styles.errorMessage}>{passwordErrors.map((err, i) => <div key={i}>{err}</div>)}</div>
+                <div className={styles.errorMessage}>
+                  {passwordErrors.map((err, i) => (
+                    <div key={i}>{err}</div>
+                  ))}
+                </div>
               )}
             </>
           )}
