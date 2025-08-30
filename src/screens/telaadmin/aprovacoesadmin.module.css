@@ -285,6 +285,21 @@
   cursor: not-allowed;
 }
 
+.analysis {
+  background-color: #f1c40f; 
+  color: #000;
+}
+
+.edit {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
 @media (max-width: 1024px) {
   .container {
     flex-direction: column;

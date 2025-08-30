@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaCheck, FaTimes, FaEye, FaFileExport, FaExclamationTriangle } from "react-icons/fa";
+import { FaCheck, FaTimes, FaEye, FaFileExport, FaExclamationTriangle, FaEdit, FaTrash } from "react-icons/fa";
 import styles from "./aprovacoesadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 
@@ -134,7 +134,29 @@ function AprovacoesAdmin() {
                   await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/rejeitar`, { method: "PATCH" });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
                 }}><FaTimes /> Rejeitar</button>
-                <button className={`${styles.cardBtn} ${styles.view}`} title="Visualizar" onClick={() => alert(`Visualizar dados de ${user.nome}`)}><FaEye /></button>
+                <button
+                  className={`${styles.cardBtn} ${styles.analysis}`}
+                  title="Análise"
+                  onClick={() => alert(`Usuario Colocado Em Análise: ${user.nome}`)}
+                >
+                  <FaExclamationTriangle /> Análise
+                </button>
+
+                <button
+                  className={`${styles.cardBtn} ${styles.edit}`}
+                  title="Editar"
+                  onClick={() => alert(`Editar dados de ${user.nome}`)}
+                >
+                  <FaEdit />
+                </button>
+
+                <button
+                  className={`${styles.cardBtn} ${styles.delete}`}
+                  title="Apagar"
+                  onClick={() => alert(`Apagar dados de ${user.nome}`)}
+                >
+                  <FaTrash />
+                </button>
               </div>
             </div>
           ))}
