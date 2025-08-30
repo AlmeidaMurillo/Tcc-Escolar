@@ -4,6 +4,11 @@
 /* COLOCAR PARA QUANDO APROVAR USUARIO, MEXER NA TELA CLIENTES PARA OS USUARIOS APARECEREM LA */
 /* FAZER COM QUE SE O USUARIO JA TIVER LOGADO E A CONTA DELE FOR BLOQUEADA, JA APARECER IMEDIATAMENTE A TELA DE BLOQUEADA */
 /* FAZER COM QUE SE O USUARIO ESTIVER COM A CONTA BLOQUEADA OU EM ANALISE, ELE NAO CONSIGA FAZER A REDEFINIÇÃO DE SENHA */
+/*QUERO FAZER UM TESTE PARA HACKERAR MEU SISTEMA*/
+
+/*VER TIPOS DE AUTOMAÇOES PARA USAR EM SISTEMA, TIPOS DE IAS*/
+
+/*ARRUMAR TODOS HOVERS DE TODAS TELAS ADAPTAR PARA TABLETS E CELULARES */
 
 import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -27,6 +32,7 @@ const LoginAdmin = lazy(() => import("./screens/telaadmin/loginadmin"));
 const DashboardAdmin = lazy(() => import("./screens/telaadmin/dashboardadmin"));
 const ClientesAdmin = lazy(() => import("./screens/telaadmin/clientesadmin"));
 const AprovacoesAdmin = lazy(() => import("./screens/telaadmin/aprovacoesadmin"));
+const LogsAdmin = lazy(() => import("./screens/telaadmin/logsadmin"));
 
 function App() {
 
@@ -68,6 +74,7 @@ function App() {
           <Route path="/admin/dashboardadmin" element={<DashboardAdmin />} />
           <Route path="/admin/clientesadmin" element={<ClientesAdmin />} />
           <Route path="/admin/aprovacoesadmin" element={<AprovacoesAdmin />} />
+          <Route path="/admin/logsadmin" element={<LogsAdmin />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

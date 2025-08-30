@@ -1,0 +1,179 @@
+.logsContainer {
+  display: flex;
+  min-height: 100vh;
+  background-color: #111;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  flex-direction: row;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 16rem;
+  min-width: 0;
+}
+
+.pageHeader {
+  margin-bottom: 1.5rem;
+}
+
+.pageTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.pageDescription {
+  color: #a1a1aa;
+  margin-bottom: 2rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.searchInput, .filterSelect {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;  
+  background: #222;
+  color: white;
+  box-sizing: border-box; 
+}
+
+.filterSelect {
+  background: #333;
+  color: #facc15;
+  font-weight: 600;
+}
+
+.logsTableContainer {
+  background: #1a1a1a;
+  border-top-left-radius: 12px;
+  padding: 1rem;
+  max-height: 60vh;       
+  overflow-x: auto;        
+  overflow-y: auto;       
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.logsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.logsTable td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  white-space: normal;      
+  word-break: break-word;  
+}
+
+.logsTable th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  white-space: nowrap;     
+  background: #222;
+  color: #facc15;
+  font-weight: 600;
+}
+
+.logsTable tr:nth-child(even) {
+  background: #2a2a2a;
+}
+
+.logsTable tr:hover {
+  background: #333;
+  transition: 0.3s;
+}
+
+.noLogs {
+  text-align: center;
+  padding: 1rem;
+  color: #aaa;
+}
+
+.menuContexto {
+  background: #1e1e2f;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  padding: 15px;
+  min-width: 220px;
+  animation: fadeIn 0.2s ease;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.menuItem input {
+  width: 93%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  background: #2c2c3e;
+  color: #fff;
+}
+
+.menuItem label {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.copiarBtn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.copiarBtn:hover {
+  background-color: #e6b800;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95);}
+  to { opacity: 1; transform: scale(1);}
+}
+
+@media (max-width: 1024px) {
+  .logsContainer {
+    flex-direction: column;
+  }
+  .mainContent {
+    padding: 1rem;
+    margin-left: 0rem;
+  }
+}
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+  .searchInput, .filterSelect {
+    width: 100%;
+  }
+  .logsTable th, .logsTable td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+}

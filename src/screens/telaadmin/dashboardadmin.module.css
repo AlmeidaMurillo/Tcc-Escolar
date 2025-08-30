@@ -32,16 +32,20 @@
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
 .statCard {
-  background-color: #222;
-  border: 1px solid #444;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
+  background: #222;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  word-break: break-word;
 }
 
 .statCardContent {
@@ -63,10 +67,13 @@
 }
 
 .statValue {
+  font-size: 1.5rem;
+  font-weight: bold;
   color: white;
-  font-size: 1.4rem;
-  font-weight: 700;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
 }
+
 
 .statIcon {
   width: 3rem;
@@ -95,22 +102,8 @@
 .statIconPurple {
   background-color: #a855f7;
 }
-
-.statChangePositive {
-  color: #22c55e;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.statChangeNeutral {
-  color: #ffd600;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.statDescription {
-  color: #a1a1aa;
-  font-size: 0.85rem;
+.statIconRed {
+  background-color: #e74c3c;
 }
 
 .overviewGrid {
