@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FaCheck, FaTimes, FaEye, FaFileExport, FaExclamationTriangle, FaEdit, FaTrash } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 import styles from "./aprovacoesadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 
@@ -64,6 +64,7 @@ function AprovacoesAdmin() {
   function handleExportXLSX() {
     const selectedUsers = users.filter(u => u.selected);
     if (!selectedUsers.length) return;
+
     const data = selectedUsers.map(u => ({
       Nome: u.nome,
       Email: u.email,
@@ -73,7 +74,19 @@ function AprovacoesAdmin() {
       "Data Solicitação": u.dataSolicitacao,
       Situação: u.status === "approved" ? "Aprovado" : u.status === "rejected" ? "Rejeitado" : "Em Análise"
     }));
+
     const ws = XLSX.utils.json_to_sheet(data);
+
+    ws['!cols'] = [
+      { wch: 25 }, 
+      { wch: 30 }, 
+      { wch: 15 }, 
+      { wch: 15 }, 
+      { wch: 15 }, 
+      { wch: 15 },
+      { wch: 15 }  
+    ];
+
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Usuarios Selecionados");
     XLSX.writeFile(wb, "usuarios_selecionados.xlsx");
@@ -82,18 +95,46 @@ function AprovacoesAdmin() {
   function handleExportPDF() {
     const selectedUsers = users.filter(u => u.selected);
     if (!selectedUsers.length) return;
+
     const data = selectedUsers.map(u => [
-      u.nome, u.email, u.cpf, u.telefone, u.dataNascimento, u.dataSolicitacao,
+      u.nome,
+      u.email,
+      u.cpf,
+      u.telefone,
+      u.dataNascimento,
+      u.dataSolicitacao,
       u.status === "approved" ? "Aprovado" : u.status === "rejected" ? "Rejeitado" : "Em Análise"
     ]);
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text("Usuários Selecionados", 14, 15);
-    doc.autoTable({
-      startY: 20,
+
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    doc.setFontSize(12);
+    doc.text("Usuários Selecionados", 40, 40);
+
+    autoTable(doc, {
+      startY: 60,
       head: [["Nome", "Email", "CPF", "Telefone", "Data Nascimento", "Data Solicitação", "Situação"]],
-      body: data
+      body: data,
+      styles: {
+        fontSize: 10,
+        overflow: 'linebreak',
+        cellPadding: 3
+      },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontStyle: 'bold'
+      },
+      columnStyles: {
+        0: { cellWidth: 150 },
+        1: { cellWidth: 180 },
+        2: { cellWidth: 70 },
+        3: { cellWidth: 90 },
+        4: { cellWidth: 90 },
+        5: { cellWidth: 90 },
+        6: { cellWidth: 80 }
+      }
     });
+
     doc.save("usuarios_selecionados.pdf");
   }
 

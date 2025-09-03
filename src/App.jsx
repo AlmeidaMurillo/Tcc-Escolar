@@ -10,6 +10,8 @@
 
 /*FAZER A TABELA DE LISTA DA TELA LOGS NO MESMO PADRAO DA TABELA DA TELA CLIENTES */
 
+/* Depois fazer para fazer relatorio de logs, logs por data selecionada e etc */
+
 import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Scroll/ScrollToTop";

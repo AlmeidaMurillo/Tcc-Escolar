@@ -183,7 +183,7 @@ function DashboardAdmin() {
                             <button className={`${styles.quickActionButton} ${styles.quickActionYellow}`} onClick={() => navigate("/admin/aprovacoesadmin")}><FaCheckCircle className={styles.quickActionIcon}  /> Aprovar Pendentes</button>
                             <button className={`${styles.quickActionButton} ${styles.quickActionBlue}`}><FaDownload className={styles.quickActionIcon} /> Exportar Relatório</button>
                             <button className={`${styles.quickActionButton} ${styles.quickActionGreen}`}><FaUserPlus className={styles.quickActionIcon} /> Novo Cliente</button>
-                            <button className={`${styles.quickActionButton} ${styles.quickActionPurple}`}><FaChartBar className={styles.quickActionIcon} /> Ver Logs</button>
+                            <button className={`${styles.quickActionButton} ${styles.quickActionPurple}`} onClick={() => navigate("/admin/logsadmin")} ><FaChartBar className={styles.quickActionIcon} /> Ver Logs</button>
                         </div>
                     </div>
                 </div>
