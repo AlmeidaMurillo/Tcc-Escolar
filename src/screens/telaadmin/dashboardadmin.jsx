@@ -5,18 +5,18 @@ import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 import { useNavigate } from "react-router-dom";
 
 function DashboardAdmin() {
-    const [totalAprovados, setTotalAprovados] = useState(0);
+    const [totalClientes, setTotalClientes] = useState(0);
     const [totalPendentes, setTotalPendentes] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/aprovados/count")
+        fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/count")
             .then((res) => res.json())
             .then((data) => {
-                setTotalAprovados(data.total);
+                setTotalClientes(data.total);
             })
             .catch((err) => {
-                console.error("Erro ao buscar aprovados:", err);
+                console.error("Erro ao buscar Usuarios:", err);
             });
     }, []);
 
@@ -47,7 +47,7 @@ function DashboardAdmin() {
                         <div className={styles.statCardContent}>
                             <div className={styles.statInfo}>
                                 <span className={styles.statTitle}>Total de Clientes</span>
-                                <span className={styles.statValue}>{totalAprovados}</span>
+                                <span className={styles.statValue}>{totalClientes}</span>
                             </div>
                             <span className={`${styles.statIcon} ${styles.statIconBlue}`}><FaUserFriends /></span>
                         </div>
