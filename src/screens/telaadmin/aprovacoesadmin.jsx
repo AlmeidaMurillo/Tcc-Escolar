@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { FaCheck, FaTimes, FaEye, FaFileExport, FaExclamationTriangle, FaEdit, FaTrash } from "react-icons/fa";
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import styles from "./aprovacoesadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 
@@ -58,8 +61,40 @@ function AprovacoesAdmin() {
     setUsers(prev => prev.map(u => u.selected ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
   }
 
-  function handleExport() {
-    alert("Exportação simulada.");
+  function handleExportXLSX() {
+    const selectedUsers = users.filter(u => u.selected);
+    if (!selectedUsers.length) return;
+    const data = selectedUsers.map(u => ({
+      Nome: u.nome,
+      Email: u.email,
+      CPF: u.cpf,
+      Telefone: u.telefone,
+      "Data Nascimento": u.dataNascimento,
+      "Data Solicitação": u.dataSolicitacao,
+      Situação: u.status === "approved" ? "Aprovado" : u.status === "rejected" ? "Rejeitado" : "Em Análise"
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Usuarios Selecionados");
+    XLSX.writeFile(wb, "usuarios_selecionados.xlsx");
+  }
+
+  function handleExportPDF() {
+    const selectedUsers = users.filter(u => u.selected);
+    if (!selectedUsers.length) return;
+    const data = selectedUsers.map(u => [
+      u.nome, u.email, u.cpf, u.telefone, u.dataNascimento, u.dataSolicitacao,
+      u.status === "approved" ? "Aprovado" : u.status === "rejected" ? "Rejeitado" : "Em Análise"
+    ]);
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("Usuários Selecionados", 14, 15);
+    doc.autoTable({
+      startY: 20,
+      head: [["Nome", "Email", "CPF", "Telefone", "Data Nascimento", "Data Solicitação", "Situação"]],
+      body: data
+    });
+    doc.save("usuarios_selecionados.pdf");
   }
 
   const filteredUsers = users.filter(user => {
@@ -86,8 +121,11 @@ function AprovacoesAdmin() {
           <button className={`${styles.actionBtn} ${styles.reject}`} onClick={handleRejectSelected} disabled={!hasSelected}>
             <FaTimes /> Rejeitar Selecionados
           </button>
-          <button className={`${styles.actionBtn} ${styles.export}`} onClick={handleExport}>
-            <FaFileExport /> Exportar Lista
+          <button className={`${styles.actionBtn} ${styles.export}`} onClick={handleExportXLSX} disabled={!hasSelected}>
+            <FaFileExport /> Exportar XLSX
+          </button>
+          <button className={`${styles.actionBtn} ${styles.export}`} onClick={handleExportPDF} disabled={!hasSelected}>
+            <FaFileExport /> Exportar PDF
           </button>
           <label className={styles.selectAllLabel}>
             <input type="checkbox" checked={allSelected} onChange={handleSelectAll} className={styles.selectAllCheckbox} />
@@ -134,27 +172,13 @@ function AprovacoesAdmin() {
                   await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/rejeitar`, { method: "PATCH" });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
                 }}><FaTimes /> Rejeitar</button>
-                <button
-                  className={`${styles.cardBtn} ${styles.analysis}`}
-                  title="Análise"
-                  onClick={() => alert(`Usuario Colocado Em Análise: ${user.nome}`)}
-                >
+                <button className={`${styles.cardBtn} ${styles.analysis}`} onClick={() => alert(`Usuario Colocado Em Análise: ${user.nome}`)}>
                   <FaExclamationTriangle /> Análise
                 </button>
-
-                <button
-                  className={`${styles.cardBtn} ${styles.edit}`}
-                  title="Editar"
-                  onClick={() => alert(`Editar dados de ${user.nome}`)}
-                >
+                <button className={`${styles.cardBtn} ${styles.edit}`} onClick={() => alert(`Editar dados de ${user.nome}`)}>
                   <FaEdit />
                 </button>
-
-                <button
-                  className={`${styles.cardBtn} ${styles.delete}`}
-                  title="Apagar"
-                  onClick={() => alert(`Apagar dados de ${user.nome}`)}
-                >
+                <button className={`${styles.cardBtn} ${styles.delete}`} onClick={() => alert(`Apagar dados de ${user.nome}`)}>
                   <FaTrash />
                 </button>
               </div>
