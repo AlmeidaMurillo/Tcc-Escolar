@@ -10,14 +10,17 @@ function DashboardAdmin() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/count")
-            .then((res) => res.json())
-            .then((data) => {
-                setTotalClientes(data.total);
-            })
-            .catch((err) => {
-                console.error("Erro ao buscar Usuarios:", err);
-            });
+        async function fetchUsuarios() {
+            try {
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios");
+                const data = await res.json();
+                setTotalClientes(data.length); 
+            } catch (err) {
+                console.error("Erro ao buscar usuários:", err);
+            }
+        }
+
+        fetchUsuarios();
     }, []);
 
     useEffect(() => {
