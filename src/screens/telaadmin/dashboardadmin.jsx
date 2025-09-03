@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 function DashboardAdmin() {
     const [totalClientes, setTotalClientes] = useState(0);
     const [totalPendentes, setTotalPendentes] = useState(0);
+    const [totalAprovados, setTotalAprovados] = useState(0);
+    const [totalBloqueados, setTotalBloqueados] = useState(0);
+    const [totalRejeitados, setTotalRejeitados] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,6 +32,45 @@ function DashboardAdmin() {
                 const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count");
                 const data = await res.json();
                 setTotalPendentes(data.total);
+            } catch (err) {
+                console.error("Erro ao buscar badge de aprovações:", err);
+            }
+        }
+        fetchBadge();
+    }, []);
+
+    useEffect(() => {
+        async function fetchBadge() {
+            try {
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/aprovados/count");
+                const data = await res.json();
+                setTotalAprovados(data.total);
+            } catch (err) {
+                console.error("Erro ao buscar badge de aprovações:", err);
+            }
+        }
+        fetchBadge();
+    }, []);
+
+    useEffect(() => {
+        async function fetchBadge() {
+            try {
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/bloqueados/count");
+                const data = await res.json();
+                setTotalBloqueados(data.total);
+            } catch (err) {
+                console.error("Erro ao buscar badge de aprovações:", err);
+            }
+        }
+        fetchBadge();
+    }, []);
+
+    useEffect(() => {
+        async function fetchBadge() {
+            try {
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/rejeitados/count");
+                const data = await res.json();
+                setTotalRejeitados(data.total);
             } catch (err) {
                 console.error("Erro ao buscar badge de aprovações:", err);
             }
@@ -59,6 +101,26 @@ function DashboardAdmin() {
                     <div className={styles.statCard}>
                         <div className={styles.statCardContent}>
                             <div className={styles.statInfo}>
+                                <span className={styles.statTitle}>Contas Ativas</span>
+                                <span className={styles.statValue}>{totalAprovados}</span>
+                            </div>
+                            <span className={`${styles.statIcon} ${styles.statIconPurple}`}><FaCheckCircle /></span>
+                        </div>
+                    </div>
+
+                    <div className={styles.statCard}>
+                        <div className={styles.statCardContent}>
+                            <div className={styles.statInfo}>
+                                <span className={styles.statTitle}>Contas Bloqueadas</span>
+                                <span className={styles.statValue}>{totalBloqueados}</span>
+                            </div>
+                            <span className={`${styles.statIcon} ${styles.statIconRed}`}><FaBan /></span>
+                        </div>
+                    </div>
+
+                    <div className={styles.statCard}>
+                        <div className={styles.statCardContent}>
+                            <div className={styles.statInfo}>
                                 <span className={styles.statTitle}>Aguardando Aprovação</span>
                                 <span className={styles.statValue}>{totalPendentes}</span>
                             </div>
@@ -69,30 +131,20 @@ function DashboardAdmin() {
                     <div className={styles.statCard}>
                         <div className={styles.statCardContent}>
                             <div className={styles.statInfo}>
+                                <span className={styles.statTitle}>Contas Rejeitadas</span>
+                                <span className={styles.statValue}>{totalRejeitados}</span>
+                            </div>
+                            <span className={`${styles.statIcon} ${styles.statIconRed1}`}><FaBan /></span>
+                        </div>
+                    </div>
+
+                    <div className={styles.statCard}>
+                        <div className={styles.statCardContent}>
+                            <div className={styles.statInfo}>
                                 <span className={styles.statTitle}>Volume Transações</span>
                                 <span className={styles.statValue}>R$ 1.100,50</span>
                             </div>
                             <span className={`${styles.statIcon} ${styles.statIconGreen}`}><FaDollarSign /></span>
-                        </div>
-                    </div>
-
-                    <div className={styles.statCard}>
-                        <div className={styles.statCardContent}>
-                            <div className={styles.statInfo}>
-                                <span className={styles.statTitle}>Contas Ativas</span>
-                                <span className={styles.statValue}>2</span>
-                            </div>
-                            <span className={`${styles.statIcon} ${styles.statIconPurple}`}><FaCheckCircle /></span>
-                        </div>
-                    </div>
-
-                    <div className={styles.statCard}>
-                        <div className={styles.statCardContent}>
-                            <div className={styles.statInfo}>
-                                <span className={styles.statTitle}>Contas Bloqueadas</span>
-                                <span className={styles.statValue}>2</span>
-                            </div>
-                            <span className={`${styles.statIcon} ${styles.statIconRed}`}><FaBan /></span>
                         </div>
                     </div>
                 </div>

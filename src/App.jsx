@@ -8,6 +8,8 @@
 
 /*ARRUMAR TODOS HOVERS DE TODAS TELAS ADAPTAR PARA TABLETS E CELULARES */
 
+/*FAZER A TABELA DE LISTA DA TELA LOGS NO MESMO PADRAO DA TABELA DA TELA CLIENTES */
+
 import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Scroll/ScrollToTop";

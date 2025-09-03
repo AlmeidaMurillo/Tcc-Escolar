@@ -106,6 +106,10 @@
   background-color: #e74c3c;
 }
 
+.statIconRed1 {
+  color: #f30707;
+}
+
 .overviewGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
