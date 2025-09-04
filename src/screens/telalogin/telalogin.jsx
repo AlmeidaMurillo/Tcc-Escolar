@@ -46,14 +46,22 @@ function Login() {
         return;
       }
 
-      if (data.situacao === "aprovado") navigate("/home");
-      else if (data.situacao === "analise") navigate("/login/analise");
-      else if (data.situacao === "rejeitado") navigate("/login/reprovado");
-      else if (data.situacao === "bloqueado") navigate("/login/bloqueada");
+      if (data.situacao === "aprovado") {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("situacao", data.situacao);
+        navigate("/home");
+      } else if (data.situacao === "analise") {
+        navigate("/login/analise");
+      } else if (data.situacao === "rejeitado") {
+        navigate("/login/reprovado");
+      } else if (data.situacao === "bloqueado") {
+        navigate("/login/bloqueada");
+      }
     } catch (err) {
       console.error("Erro ao logar:", err);
     }
   }, [cpf, senha, navigate]);
+
 
   const handleKeyDownCpf = (e) => {
     if (e.key === "Enter") {

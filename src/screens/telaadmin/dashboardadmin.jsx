@@ -11,72 +11,46 @@ function DashboardAdmin() {
     const [totalBloqueados, setTotalBloqueados] = useState(0);
     const [totalRejeitados, setTotalRejeitados] = useState(0);
     const navigate = useNavigate();
+    const token = localStorage.getItem("adminToken");
+
 
     useEffect(() => {
         async function fetchUsuarios() {
             try {
-                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios");
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const data = await res.json();
-                setTotalClientes(data.length); 
+                setTotalClientes(data.length);
             } catch (err) {
                 console.error("Erro ao buscar usuários:", err);
             }
         }
-
         fetchUsuarios();
-    }, []);
+    }, [token]);
 
     useEffect(() => {
-        async function fetchBadge() {
+        async function fetchBadge(url, setState) {
             try {
-                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count");
+                const res = await fetch(url, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const data = await res.json();
-                setTotalPendentes(data.total);
+                setState(data.total);
             } catch (err) {
-                console.error("Erro ao buscar badge de aprovações:", err);
+                console.error("Erro ao buscar badge:", err);
             }
         }
-        fetchBadge();
-    }, []);
 
-    useEffect(() => {
-        async function fetchBadge() {
-            try {
-                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/aprovados/count");
-                const data = await res.json();
-                setTotalAprovados(data.total);
-            } catch (err) {
-                console.error("Erro ao buscar badge de aprovações:", err);
-            }
-        }
-        fetchBadge();
-    }, []);
-
-    useEffect(() => {
-        async function fetchBadge() {
-            try {
-                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/bloqueados/count");
-                const data = await res.json();
-                setTotalBloqueados(data.total);
-            } catch (err) {
-                console.error("Erro ao buscar badge de aprovações:", err);
-            }
-        }
-        fetchBadge();
-    }, []);
-
-    useEffect(() => {
-        async function fetchBadge() {
-            try {
-                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/rejeitados/count");
-                const data = await res.json();
-                setTotalRejeitados(data.total);
-            } catch (err) {
-                console.error("Erro ao buscar badge de aprovações:", err);
-            }
-        }
-        fetchBadge();
-    }, []);
+        fetchBadge("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count", setTotalPendentes);
+        fetchBadge("https://tcc-escolar-backend-production.up.railway.app/usuarios/aprovados/count", setTotalAprovados);
+        fetchBadge("https://tcc-escolar-backend-production.up.railway.app/usuarios/bloqueados/count", setTotalBloqueados);
+        fetchBadge("https://tcc-escolar-backend-production.up.railway.app/usuarios/rejeitados/count", setTotalRejeitados);
+    }, [token]);
 
     return (
         <div className={styles.dashboardContainer}>
@@ -180,7 +154,7 @@ function DashboardAdmin() {
                     <div className={styles.quickActionsCard}>
                         <div className={styles.cardTitle}>Ações Rápidas</div>
                         <div className={styles.quickActionsGrid}>
-                            <button className={`${styles.quickActionButton} ${styles.quickActionYellow}`} onClick={() => navigate("/admin/aprovacoesadmin")}><FaCheckCircle className={styles.quickActionIcon}  /> Aprovar Pendentes</button>
+                            <button className={`${styles.quickActionButton} ${styles.quickActionYellow}`} onClick={() => navigate("/admin/aprovacoesadmin")}><FaCheckCircle className={styles.quickActionIcon} /> Aprovar Pendentes</button>
                             <button className={`${styles.quickActionButton} ${styles.quickActionBlue}`}><FaDownload className={styles.quickActionIcon} /> Exportar Relatório</button>
                             <button className={`${styles.quickActionButton} ${styles.quickActionGreen}`}><FaUserPlus className={styles.quickActionIcon} /> Novo Cliente</button>
                             <button className={`${styles.quickActionButton} ${styles.quickActionPurple}`} onClick={() => navigate("/admin/logsadmin")} ><FaChartBar className={styles.quickActionIcon} /> Ver Logs</button>

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
-import { FaChartBar, FaUserFriends, FaCheckCircle, FaClipboardList } from "react-icons/fa";
+import { FaChartBar, FaUserFriends, FaCheckCircle, FaClipboardList, FaSignOutAlt } from "react-icons/fa";
 import styles from "./sidebaradmin.module.css";
 
 function SidebarAdmin() {
   const navigate = useNavigate();
   const [badgeAprovacoes, setBadgeAprovacoes] = useState(0);
+
+  const token = sessionStorage.getItem("adminToken") || localStorage.getItem("adminToken");
 
   const handleClicklogo = () => {
     if (window.location.pathname === "/admin/dashboardadmin") {
@@ -17,10 +19,18 @@ function SidebarAdmin() {
     }
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("adminToken");
+    localStorage.removeItem("adminToken");
+    navigate("/admin/loginadmin");
+  };
+
   useEffect(() => {
     async function fetchBadge() {
       try {
-        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count");
+        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         const data = await res.json();
         setBadgeAprovacoes(data.total);
       } catch (err) {
@@ -28,8 +38,8 @@ function SidebarAdmin() {
       }
     }
 
-    fetchBadge();
-  }, []);
+    if (token) fetchBadge();
+  }, [token]);
 
   return (
     <aside className={styles.sidebar}>
@@ -70,6 +80,12 @@ function SidebarAdmin() {
               <span className={styles.menuIcon}><FaClipboardList /></span>
               <span className={styles.menuLabel}>Logs do Sistema</span>
             </NavLink>
+          </li>
+          <li>
+            <button onClick={handleLogout} className={styles.logoutButton}>
+              <span className={styles.menuIcon}><FaSignOutAlt /></span>
+              <span className={styles.menuLabel}>Logout</span>
+            </button>
           </li>
         </ul>
       </nav>

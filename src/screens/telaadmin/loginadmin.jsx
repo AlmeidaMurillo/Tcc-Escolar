@@ -23,24 +23,25 @@ function LoginAdmin() {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
     setLoading(true);
 
-    const usuario = event.target.username.value;
-    const senha = event.target.password.value;
+    const usuario = event.target.usuario.value;
+    const senha = event.target.senha.value;
 
     try {
-      const response = await fetch("https://tcc-escolar-backend-production.up.railway.app/loginadmin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, senha }),
-      });
+      const response = await fetch(
+        "https://tcc-escolar-backend-production.up.railway.app/loginadmin",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, senha }),
+        }
+      );
 
       const data = await response.json();
       setLoading(false);
@@ -48,6 +49,8 @@ function LoginAdmin() {
       if (!response.ok) {
         setErrorMessage(data.error || "Erro ao fazer login");
       } else {
+        localStorage.setItem("adminToken", data.token);
+
         navigate("/admin/dashboardadmin");
       }
     } catch (error) {
@@ -59,7 +62,7 @@ function LoginAdmin() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header} data-testid="header-navigation">
+      <header className={styles.header}>
         <div className={styles.headerContainer}>
           <nav className={styles.nav}>
             <div className={styles.navLeft}>
@@ -84,11 +87,7 @@ function LoginAdmin() {
 
       <main className={styles.loginContainer}>
         <div className={styles.loginCard}>
-          <form
-            className={styles.loginForm}
-            data-testid="form-login"
-            onSubmit={handleSubmit}
-          >
+          <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formHeader}>
               <h1 className={styles.formTitle}>Acesso Administrativo</h1>
               <p className={styles.formSubtitle}>
@@ -101,39 +100,36 @@ function LoginAdmin() {
             )}
 
             <div className={styles.fieldGroup}>
-              <label htmlFor="username" className={styles.fieldLabel}>
+              <label htmlFor="usuario" className={styles.fieldLabel}>
                 Login
               </label>
               <input
                 type="text"
-                id="username"
-                name="username"
+                id="usuario"
+                name="usuario"
                 className={styles.inputField}
                 placeholder="Digite seu login"
                 required
-                data-testid="input-username"
               />
             </div>
 
             <div className={styles.fieldGroup}>
-              <label htmlFor="password" className={styles.fieldLabel}>
+              <label htmlFor="senha" className={styles.fieldLabel}>
                 Senha
               </label>
               <div className={styles.passwordContainer}>
                 <input
                   type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
+                  id="senha"
+                  name="senha"
                   className={styles.inputField}
                   placeholder="Digite sua senha"
                   required
-                  data-testid="input-password"
                 />
                 <button
                   type="button"
                   className={styles.passwordToggle}
                   onClick={togglePasswordVisibility}
-                  data-testid="button-toggle-password"
                 >
                   {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
                 </button>
@@ -143,7 +139,6 @@ function LoginAdmin() {
             <button
               type="submit"
               className={styles.submitButton}
-              data-testid="button-submit"
               disabled={loading}
             >
               {loading ? "Carregando..." : "Acessar"}
