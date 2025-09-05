@@ -13,7 +13,13 @@ function LogsAdmin() {
   useEffect(() => {
     async function fetchLogs() {
       try {
-        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/logs");
+        const token = localStorage.getItem("adminToken");
+        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/logs", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (!res.ok) throw new Error("Erro ao buscar logs");
         const data = await res.json();
         setLogs(data);
       } catch (err) {

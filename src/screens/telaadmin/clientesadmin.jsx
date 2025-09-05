@@ -3,18 +3,32 @@ import { FaUserPlus, FaDownload, FaLock, FaUnlock, FaEllipsisV } from "react-ico
 import styles from "./clientesadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ClientesAdmin() {
     const [clientesData, setClientesData] = useState([]);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("todos");
+    const navigate = useNavigate();
+    const token = localStorage.getItem("adminToken");
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!token) {
+                navigate("/admin/loginadmin");
+                return;
+            }
+
             try {
-                const res = await axios.get("https://tcc-escolar-backend-production.up.railway.app/usuarios", {
-                    params: { search, status: statusFilter }
-                });
+                const res = await axios.get(
+                    "https://tcc-escolar-backend-production.up.railway.app/usuarios",
+                    {
+                        params: { search, status: statusFilter },
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
                 const filtrados = res.data.filter(
                     (c) => c.situacao === "aprovado" || c.situacao === "bloqueado"
@@ -23,10 +37,16 @@ function ClientesAdmin() {
                 setClientesData(filtrados);
             } catch (err) {
                 console.error(err);
+
+                if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+                    localStorage.removeItem("adminToken");
+                    navigate("/admin/loginadmin");
+                }
             }
         };
+
         fetchData();
-    }, [search, statusFilter]);
+    }, [search, statusFilter, token, navigate]);
 
     return (
         <div className={styles.container}>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaCheck, FaTimes, FaEye, FaFileExport, FaExclamationTriangle, FaEdit, FaTrash } from "react-icons/fa";
+import { FaCheck, FaTimes, FaFileExport, FaExclamationTriangle, FaEdit, FaTrash } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -10,11 +10,14 @@ function AprovacoesAdmin() {
   const [users, setUsers] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [searchDate, setSearchDate] = useState("");
+  const token = localStorage.getItem("adminToken");
 
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes");
+        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         if (!res.ok) throw new Error("Erro ao buscar usuários");
         const data = await res.json();
         const usersWithStatus = data.map(u => ({
@@ -31,8 +34,8 @@ function AprovacoesAdmin() {
         console.error(err);
       }
     }
-    fetchUsers();
-  }, []);
+    if (token) fetchUsers();
+  }, [token]);
 
   const hasSelected = users.some(u => u.selected);
   const allSelected = users.every(u => u.selected);
@@ -48,7 +51,10 @@ function AprovacoesAdmin() {
   async function handleApproveSelected() {
     const selectedUsers = users.filter(u => u.selected);
     for (let u of selectedUsers) {
-      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/aprovar`, { method: "PATCH" });
+      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/aprovar`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` }
+      });
     }
     setUsers(prev => prev.map(u => u.selected ? { ...u, status: "approved", situacao: "aprovado", dataCriacao: new Date().toLocaleString("pt-BR"), selected: false } : u));
   }
@@ -56,7 +62,10 @@ function AprovacoesAdmin() {
   async function handleRejectSelected() {
     const selectedUsers = users.filter(u => u.selected);
     for (let u of selectedUsers) {
-      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/rejeitar`, { method: "PATCH" });
+      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${u.id}/rejeitar`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` }
+      });
     }
     setUsers(prev => prev.map(u => u.selected ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
   }
@@ -64,7 +73,6 @@ function AprovacoesAdmin() {
   function handleExportXLSX() {
     const selectedUsers = users.filter(u => u.selected);
     if (!selectedUsers.length) return;
-
     const data = selectedUsers.map(u => ({
       Nome: u.nome,
       Email: u.email,
@@ -74,19 +82,11 @@ function AprovacoesAdmin() {
       "Data Solicitação": u.dataSolicitacao,
       Situação: u.status === "approved" ? "Aprovado" : u.status === "rejected" ? "Rejeitado" : "Em Análise"
     }));
-
     const ws = XLSX.utils.json_to_sheet(data);
-
     ws['!cols'] = [
-      { wch: 25 }, 
-      { wch: 30 }, 
-      { wch: 15 }, 
-      { wch: 15 }, 
-      { wch: 15 }, 
-      { wch: 15 },
-      { wch: 15 }  
+      { wch: 25 }, { wch: 30 }, { wch: 15 }, { wch: 15 },
+      { wch: 15 }, { wch: 15 }, { wch: 15 }
     ];
-
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Usuarios Selecionados");
     XLSX.writeFile(wb, "usuarios_selecionados.xlsx");
@@ -95,46 +95,21 @@ function AprovacoesAdmin() {
   function handleExportPDF() {
     const selectedUsers = users.filter(u => u.selected);
     if (!selectedUsers.length) return;
-
     const data = selectedUsers.map(u => [
-      u.nome,
-      u.email,
-      u.cpf,
-      u.telefone,
-      u.dataNascimento,
-      u.dataSolicitacao,
+      u.nome, u.email, u.cpf, u.telefone, u.dataNascimento, u.dataSolicitacao,
       u.status === "approved" ? "Aprovado" : u.status === "rejected" ? "Rejeitado" : "Em Análise"
     ]);
-
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
     doc.setFontSize(12);
     doc.text("Usuários Selecionados", 40, 40);
-
     autoTable(doc, {
       startY: 60,
       head: [["Nome", "Email", "CPF", "Telefone", "Data Nascimento", "Data Solicitação", "Situação"]],
       body: data,
-      styles: {
-        fontSize: 10,
-        overflow: 'linebreak',
-        cellPadding: 3
-      },
-      headStyles: {
-        fillColor: [22, 160, 133],
-        textColor: 255,
-        fontStyle: 'bold'
-      },
-      columnStyles: {
-        0: { cellWidth: 150 },
-        1: { cellWidth: 180 },
-        2: { cellWidth: 70 },
-        3: { cellWidth: 90 },
-        4: { cellWidth: 90 },
-        5: { cellWidth: 90 },
-        6: { cellWidth: 80 }
-      }
+      styles: { fontSize: 10, overflow: "linebreak", cellPadding: 3 },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontStyle: "bold" },
+      columnStyles: { 0: { cellWidth: 150 }, 1: { cellWidth: 180 }, 2: { cellWidth: 70 }, 3: { cellWidth: 90 }, 4: { cellWidth: 90 }, 5: { cellWidth: 90 }, 6: { cellWidth: 80 } }
     });
-
     doc.save("usuarios_selecionados.pdf");
   }
 
@@ -198,19 +173,25 @@ function AprovacoesAdmin() {
                     user.status === "approved" ? styles.statusComplete :
                       user.status === "rejected" ? styles.statusRejected : styles.statusPending
                   }>
-                    {user.status === "approved" ? <><FaCheck style={{ verticalAlign: "middle" }} /> Aprovado</> :
-                      user.status === "rejected" ? <><FaTimes style={{ verticalAlign: "middle" }} /> Rejeitado</> :
-                        <><FaExclamationTriangle style={{ verticalAlign: "middle" }} /> Em Análise</>}
+                    {user.status === "approved" ? <> <FaCheck /> Aprovado</> :
+                      user.status === "rejected" ? <> <FaTimes /> Rejeitado</> :
+                        <> <FaExclamationTriangle /> Em Análise</>}
                   </span>
                 </div>
               </div>
               <div className={styles.cardActions}>
                 <button className={`${styles.cardBtn} ${styles.approve}`} onClick={async () => {
-                  await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/aprovar`, { method: "PATCH" });
+                  await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/aprovar`, {
+                    method: "PATCH",
+                    headers: { Authorization: `Bearer ${token}` }
+                  });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "approved", situacao: "aprovado", dataCriacao: new Date().toLocaleString("pt-BR"), selected: false } : u));
                 }}><FaCheck /> Aprovar</button>
                 <button className={`${styles.cardBtn} ${styles.reject}`} onClick={async () => {
-                  await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/rejeitar`, { method: "PATCH" });
+                  await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${user.id}/rejeitar`, {
+                    method: "PATCH",
+                    headers: { Authorization: `Bearer ${token}` }
+                  });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
                 }}><FaTimes /> Rejeitar</button>
                 <button className={`${styles.cardBtn} ${styles.analysis}`} onClick={() => alert(`Usuario Colocado Em Análise: ${user.nome}`)}>

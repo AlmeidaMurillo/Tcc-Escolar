@@ -17,6 +17,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Scroll/ScrollToTop";
 import Spinner from "./components/Spinner/Spinner";
 import { EtapasProtectedRoutes, AuthProtectedRoutes } from "./ProtectedRoutes";
+import ProtectedRoutesAdmin from "./ProtectedRoutesAdmin";
 
 const Inicial = lazy(() => import("./screens/telainicial/telainicial"));
 const Registro = lazy(() => import("./screens/telaregistro/telaregistro"));
@@ -77,33 +78,33 @@ function App() {
           <Route
             path="/admin/dashboardadmin"
             element={
-              <AuthProtectedRoutes>
+              <ProtectedRoutesAdmin>
                 <DashboardAdmin />
-              </AuthProtectedRoutes>
+              </ProtectedRoutesAdmin>
             }
           />
           <Route
             path="/admin/clientesadmin"
             element={
-              <AuthProtectedRoutes>
+              <ProtectedRoutesAdmin>
                 <ClientesAdmin />
-              </AuthProtectedRoutes>
+              </ProtectedRoutesAdmin>
             }
           />
           <Route
             path="/admin/aprovacoesadmin"
             element={
-              <AuthProtectedRoutes>
+              <ProtectedRoutesAdmin>
                 <AprovacoesAdmin />
-              </AuthProtectedRoutes>
+              </ProtectedRoutesAdmin>
             }
           />
           <Route
             path="/admin/logsadmin"
             element={
-              <AuthProtectedRoutes>
+              <ProtectedRoutesAdmin>
                 <LogsAdmin />
-              </AuthProtectedRoutes>
+              </ProtectedRoutesAdmin>
             }
           />
         </Routes>
