@@ -10,8 +10,24 @@ function DashboardAdmin() {
     const [totalAprovados, setTotalAprovados] = useState(0);
     const [totalBloqueados, setTotalBloqueados] = useState(0);
     const [totalRejeitados, setTotalRejeitados] = useState(0);
+    const [logsRecentes, setLogsRecentes] = useState([]);
     const navigate = useNavigate();
     const token = localStorage.getItem("adminToken");
+
+    useEffect(() => {
+        async function fetchLogsRecentes() {
+            try {
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/logs/recentes", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
+                setLogsRecentes(data);
+            } catch (err) {
+                console.error("Erro ao buscar logs recentes:", err);
+            }
+        }
+        fetchLogsRecentes();
+    }, [token]);
 
 
     useEffect(() => {
@@ -127,27 +143,17 @@ function DashboardAdmin() {
                     <div className={styles.activityCard}>
                         <div className={styles.cardTitle}>Atividades Recentes</div>
                         <div className={styles.activityList}>
-                            <div className={styles.activityItem}>
-                                <span className={`${styles.activityIcon} ${styles.activityIconBlue}`}><FaUserPlus /></span>
-                                <div className={styles.activityContent}>
-                                    <span className={styles.activityTitle}>Nova conta criada</span>
-                                    <span className={styles.activityDescription}>João Silva - 2 min atrás</span>
+                            {logsRecentes.map((log) => (
+                                <div key={log.id} className={styles.activityItem}>
+                                    <span className={`${styles.activityIcon} ${styles.activityIconBlue}`}><FaUserPlus /></span>
+                                    <div className={styles.activityContent}>
+                                        <span className={styles.activityTitle}>{log.tipo.replace(/_/g, " ")}</span>
+                                        <span className={styles.activityDescription}>
+                                            {log.usuario ? log.usuario : "Sistema"} - {new Date(log.data_criacao).toLocaleString()}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={styles.activityItem}>
-                                <span className={`${styles.activityIcon} ${styles.activityIconGreen}`}><FaCheckCircle /></span>
-                                <div className={styles.activityContent}>
-                                    <span className={styles.activityTitle}>Cliente aprovado</span>
-                                    <span className={styles.activityDescription}>Maria Oliveira - 5 min atrás</span>
-                                </div>
-                            </div>
-                            <div className={styles.activityItem}>
-                                <span className={`${styles.activityIcon} ${styles.activityIconYellow}`}><FaDollarSign /></span>
-                                <div className={styles.activityContent}>
-                                    <span className={styles.activityTitle}>Transferência processada</span>
-                                    <span className={styles.activityDescription}>R$ 1.500,00 - 8 min atrás</span>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
 

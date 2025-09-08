@@ -12,12 +12,15 @@
 
 /* Depois fazer para fazer relatorio de logs, logs por data selecionada e etc */
 
+/* ESPECIFICAR MELHOR ATIVIDADES RECENTES NA TELA DASHBOARD */
+
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Scroll/ScrollToTop";
 import Spinner from "./components/Spinner/Spinner";
 import { EtapasProtectedRoutes, AuthProtectedRoutes } from "./ProtectedRoutes";
 import ProtectedRoutesAdmin from "./ProtectedRoutesAdmin";
+import { SituacaoProtectedRoutes } from "./SituacaoProtectedRoutes";
 
 const Inicial = lazy(() => import("./screens/telainicial/telainicial"));
 const Registro = lazy(() => import("./screens/telaregistro/telaregistro"));
@@ -45,9 +48,31 @@ function App() {
           <Route path="/registro" element={<Registro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login/recuperarsenha" element={<RecuperarSenha />} />
-          <Route path="/login/analise" element={<Analise />} />
-          <Route path="/login/reprovado" element={<Reprovado />} />
-          <Route path="/login/bloqueada" element={<Bloqueada />} />
+
+          <Route
+            path="/login/analise"
+            element={
+              <SituacaoProtectedRoutes situacaoPermitida="analise">
+                <Analise />
+              </SituacaoProtectedRoutes>
+            }
+          />
+          <Route
+            path="/login/reprovado"
+            element={
+              <SituacaoProtectedRoutes situacaoPermitida="rejeitado">
+                <Reprovado />
+              </SituacaoProtectedRoutes>
+            }
+          />
+          <Route
+            path="/login/bloqueada"
+            element={
+              <SituacaoProtectedRoutes situacaoPermitida="bloqueado">
+                <Bloqueada />
+              </SituacaoProtectedRoutes>
+            }
+          />
 
           <Route
             path="/registro/etapas"

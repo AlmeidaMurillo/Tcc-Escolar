@@ -12,62 +12,49 @@ function Login() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [erroCpf, setErroCpf] = useState("");
   const [erroSenha, setErroSenha] = useState("");
-
   const inputCpfRef = useRef(null);
   const inputSenhaRef = useRef(null);
 
   const handleLogin = useCallback(async () => {
     setErroCpf("");
     setErroSenha("");
-
-    let valid = true;
     if (!cpf.trim()) {
       setErroCpf("Campo CPF é obrigatório");
-      valid = false;
+      return;
     }
     if (!senha.trim()) {
       setErroSenha("Campo senha é obrigatório");
-      valid = false;
+      return;
     }
-    if (!valid) return;
-
     try {
       const response = await fetch("https://tcc-escolar-backend-production.up.railway.app/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cpf, senha }),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         if (data.error === "CPF não encontrado") setErroCpf("CPF não encontrado");
         else if (data.error === "Senha incorreta") setErroSenha("Senha incorreta");
+        else setErroSenha(data.error || "Erro no login");
         return;
       }
-
-      if (data.situacao === "aprovado") {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("situacao", data.situacao);
-        navigate("/home");
-      } else if (data.situacao === "analise") {
-        navigate("/login/analise");
-      } else if (data.situacao === "rejeitado") {
-        navigate("/login/reprovado");
-      } else if (data.situacao === "bloqueado") {
-        navigate("/login/bloqueada");
-      }
-    } catch (err) {
-      console.error("Erro ao logar:", err);
+      localStorage.setItem("usuarioToken", data.token);
+      localStorage.setItem("usuarioCPF", cpf);
+      localStorage.setItem("situacao", data.situacao);
+      if (data.situacao === "aprovado") navigate("/home");
+      else if (data.situacao === "analise") navigate("/login/analise");
+      else if (data.situacao === "rejeitado") navigate("/login/reprovado");
+      else if (data.situacao === "bloqueado") navigate("/login/bloqueada");
+    } catch {
+      setErroSenha("Erro ao conectar com o servidor");
     }
   }, [cpf, senha, navigate]);
 
-
   const handleKeyDownCpf = (e) => {
     if (e.key === "Enter") {
-      if (!cpf.trim()) {
-        setErroCpf("Campo CPF é obrigatório");
-      } else {
+      if (!cpf.trim()) setErroCpf("Campo CPF é obrigatório");
+      else {
         setErroCpf("");
         inputSenhaRef.current.focus();
       }
@@ -75,30 +62,11 @@ function Login() {
   };
 
   const handleKeyDownSenha = (e) => {
-    if (e.key === "Enter") {
-      let valid = true;
-      if (!cpf.trim()) {
-        setErroCpf("Campo CPF é obrigatório");
-        valid = false;
-      } else {
-        setErroCpf("");
-      }
-      if (!senha.trim()) {
-        setErroSenha("Campo senha é obrigatório");
-        valid = false;
-      } else {
-        setErroSenha("");
-      }
-      if (valid) handleLogin();
-    }
+    if (e.key === "Enter") handleLogin();
   };
 
   const handleClickCriarConta = () => navigate("/registro");
-
-  const handleClicklogo = () => {
-    if (window.location.pathname === "/") window.location.reload();
-    else navigate("/");
-  };
+  const handleClickLogo = () => (window.location.pathname === "/" ? window.location.reload() : navigate("/"));
 
   useEffect(() => {
     document.title = "Digite seu CPF e Senha para iniciar sessão";
@@ -111,8 +79,8 @@ function Login() {
           <nav className={styles.nav}>
             <div className={styles.navLeft}>
               <div className={styles.divlogo}>
-                <img src={logoheader} alt="logoheader" className={styles.logoheader} onClick={handleClicklogo} />
-                <img src={logoheadermobile} alt="logoheadermobile" className={styles.logoheadermobile} onClick={handleClicklogo} />
+                <img src={logoheader} alt="logoheader" className={styles.logoheader} onClick={handleClickLogo} />
+                <img src={logoheadermobile} alt="logoheadermobile" className={styles.logoheadermobile} onClick={handleClickLogo} />
               </div>
             </div>
           </nav>
@@ -157,7 +125,7 @@ function Login() {
               <button className={styles.criarConta} onClick={handleClickCriarConta}>Criar conta</button>
             </div>
           </div>
-          <a href="" className={styles.help} onClick={() => navigate("/login/recuperarsenha")}>Recuperar Senha ?</a>
+          <a className={styles.help} onClick={() => navigate("/login/recuperarsenha")}>Recuperar Senha ?</a>
         </div>
       </div>
 

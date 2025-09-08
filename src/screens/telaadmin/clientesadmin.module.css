@@ -98,48 +98,25 @@
   overflow: hidden;
 }
 
-.tableHeader {
-  flex: 0 0 auto;
-  background: #222;
-  border-bottom: 1px solid #333;
-}
-
-.tableBody {
+.tableWrapper {
   flex: 1 1 auto;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #ffd600 #333;
 }
 
-.tableBody::-webkit-scrollbar {
+.tableWrapper::-webkit-scrollbar {
   width: 10px;
 }
 
-.tableBody::-webkit-scrollbar-track {
+.tableWrapper::-webkit-scrollbar-track {
   background: #333;
   border-radius: 10px;
 }
 
-.tableBody::-webkit-scrollbar-thumb {
+.tableWrapper::-webkit-scrollbar-thumb {
   background-color: #ffd600;
   border-radius: 10px;
-}
-
-.tableFooter {
-  flex: 0 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  background-color: #333;
-  color: #fff;
-  font-size: clamp(0.85rem, 1vw, 1rem);
-  width: 100%;
-  min-width: 500px;
-  box-sizing: border-box;
-  border-top: 1px solid #444;
 }
 
 .table {
@@ -160,6 +137,28 @@
 .table th {
   color: #a1a1aa;
   font-weight: 600;
+  position: sticky;
+  top: 0;
+  background: #222;
+  z-index: 2;
+}
+
+
+.tableFooter {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  width: 100%;
+  min-width: 500px;
+  box-sizing: border-box;
+  border-top: 1px solid #444;
 }
 
 .clienteInfo {

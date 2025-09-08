@@ -82,7 +82,7 @@ function ClientesAdmin() {
                     </button>
                 </div>
                 <div className={styles.tableContainer}>
-                    <div className={styles.tableHeader}>
+                    <div className={styles.tableWrapper}>
                         <table className={styles.table}>
                             <thead>
                                 <tr>
@@ -92,10 +92,6 @@ function ClientesAdmin() {
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                        </table>
-                    </div>
-                    <div className={styles.tableBody}>
-                        <table className={styles.table}>
                             <tbody>
                                 {clientesData.length === 0 ? (
                                     <tr>
@@ -150,6 +146,7 @@ function ClientesAdmin() {
                         <span>{clientesData.length} clientes</span>
                     </div>
                 </div>
+
             </main>
         </div>
     );
