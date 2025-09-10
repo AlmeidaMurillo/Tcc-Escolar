@@ -1,0 +1,392 @@
+.container {
+  min-height: 100vh;
+  background-color: #111;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  padding: clamp(0.5rem, 2vw, 2rem);
+  background-color: #111;
+  overflow-x: auto;
+  margin-left: 16rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pageHeader {
+  margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
+}
+
+.pageTitle {
+  font-size: clamp(1.3rem, 2.2vw, 2rem);
+  font-weight: bold;
+  color: white;
+}
+
+.pageSubtitle {
+  color: #ccc;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.selectAllLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.selectAllCheckbox {
+  accent-color: #2563eb;
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.filtersRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.filterInput {
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #333;
+  background: #191919;
+  color: #fff;
+  font-size: 1rem;
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.actionBtn,
+.cardBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 0.7rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  background: #222;
+  color: #fff;
+}
+
+.actionBtn.selected {
+  background: #2d2;
+  color: #fff;
+}
+
+.actionBtn.reject {
+  background: #d22;
+  color: #fff;
+}
+
+.actionBtn.export {
+  background: #2563eb;
+  color: #fff;
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 40vw, 480px), 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: 1rem;
+}
+
+.card,
+.cardBody,
+.cardHeader,
+.cardActions,
+.cardField,
+.cardEmail {
+  min-width: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
+.card {
+  background: #222;
+  border-radius: 1rem;
+  padding: clamp(1rem, 3vw, 2rem) clamp(0.7rem, 2vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ff0;
+  color: #222;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.cardEmail {
+  font-size: 1rem;
+  color: #ccc;
+  word-break: break-all;
+  max-width: 160px;
+  overflow-wrap: anywhere;
+}
+
+.cardCheckbox {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  accent-color: #2563eb;
+  width: 1.2rem;
+  height: 1.2rem;
+  z-index: 1;
+}
+
+.cardBody {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardField {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  gap: 1rem;
+}
+
+.cardField strong {
+  color: #eee;
+  font-weight: 500;
+  min-width: 110px;
+}
+
+.cardStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.statusComplete {
+  color: #12c450;
+  font-weight: 600;
+}
+
+.statusPending {
+  color: #ffb300;
+  font-weight: 600;
+}
+
+.cardActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.cardBtn {
+  flex: 1 1 120px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  justify-content: center;
+  transition: background 0.2s;
+  min-width: 44px;
+}
+
+.cardBtn.approve {
+  background: #12c450;
+  color: #fff;
+}
+
+.cardBtn.approve.disabled {
+  background: #444;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.cardBtn.reject {
+  background: #d22;
+  color: #fff;
+}
+
+.cardBtn.view {
+  background: #2563eb;
+  color: #fff;
+  min-width: 44px;
+  padding: 0.7rem 0;
+}
+
+.cardBtn.disabled {
+  background: #444;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.analysis {
+  background-color: #f1c40f; 
+  color: #000;
+}
+
+.edit {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 600px),
+(max-width: 500px) {
+  .card {
+    padding: 1rem 0.4rem;
+    max-width: 100vw;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .actions {
+    flex-direction: column !important;
+    gap: 0.7rem;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .actionBtn {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .filtersRow {
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 100%;
+  }
+
+  .filterInput {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cardHeader {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem;
+  }
+
+  .cardActions {
+    flex-direction: column !important;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .cardBtn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cardField {
+    flex-direction: column !important;
+    gap: 0.15rem;
+    align-items: flex-start;
+  }
+
+  .cardEmail {
+    max-width: 100vw;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 350px) {
+  .card {
+    padding: 0.4rem 0.1rem;
+    font-size: 0.93rem;
+  }
+
+  .cardTitle,
+  .cardEmail,
+  .cardField strong,
+  .statusComplete,
+  .statusPending {
+    font-size: 0.95rem;
+  }
+}

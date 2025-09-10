@@ -1,0 +1,96 @@
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import logoheader from "../../images/logoheader.png";
+import logoheadermobile from "../../images/logoheadermobile.png";
+import { FaChartBar, FaUserFriends, FaCheckCircle, FaClipboardList, FaSignOutAlt } from "react-icons/fa";
+import styles from "./sidebaradmin.module.css";
+
+function SidebarAdmin() {
+  const navigate = useNavigate();
+  const [badgeAprovacoes, setBadgeAprovacoes] = useState(0);
+
+  const token = sessionStorage.getItem("adminToken") || localStorage.getItem("adminToken");
+
+  const handleClicklogo = () => {
+    if (window.location.pathname === "/admin/dashboardadmin") {
+      window.location.reload();
+    } else {
+      navigate("/admin/dashboardadmin");
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("adminToken");
+    localStorage.removeItem("adminToken");
+    navigate("/admin/loginadmin");
+  };
+
+  useEffect(() => {
+    async function fetchBadge() {
+      try {
+        const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/usuarios/pendentes/count", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        setBadgeAprovacoes(data.total);
+      } catch (err) {
+        console.error("Erro ao buscar badge de aprovações:", err);
+      }
+    }
+
+    if (token) fetchBadge();
+  }, [token]);
+
+  return (
+    <aside className={styles.sidebar}>
+      <header className={styles.header}>
+        <div className={styles.headerContainer}>
+          <div className={styles.divlogo}>
+            <img src={logoheader} alt="logoheader" className={styles.logoheader} onClick={handleClicklogo} />
+            <img src={logoheadermobile} alt="logoheadermobile" className={styles.logoheadermobile} onClick={handleClicklogo} />
+          </div>
+        </div>
+      </header>
+      <nav className={styles.sidebarNav}>
+        <div className={styles.sidebarHeader}>
+          <span className={styles.sidebarTitle}>Painel Admin</span>
+        </div>
+        <ul className={styles.sidebarMenu}>
+          <li>
+            <NavLink to="/admin/dashboardadmin" className={({ isActive }) => `${styles.menuItem} ${isActive ? styles.menuItemActive : ""}`} end>
+              <span className={styles.menuIcon}><FaChartBar /></span>
+              <span className={styles.menuLabel}>Dashboard</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/clientesadmin" className={({ isActive }) => `${styles.menuItem} ${isActive ? styles.menuItemActive : ""}`}>
+              <span className={styles.menuIcon}><FaUserFriends /></span>
+              <span className={styles.menuLabel}>Clientes</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/aprovacoesadmin" className={({ isActive }) => `${styles.menuItem} ${isActive ? styles.menuItemActive : ""}`}>
+              <span className={styles.menuIcon}><FaCheckCircle /></span>
+              <span className={styles.menuLabel}>Aprovações</span>
+              {badgeAprovacoes > 0 && <span className={styles.badge}>{badgeAprovacoes}</span>}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/logsadmin" className={({ isActive }) => `${styles.menuItem} ${isActive ? styles.menuItemActive : ""}`}>
+              <span className={styles.menuIcon}><FaClipboardList /></span>
+              <span className={styles.menuLabel}>Logs do Sistema</span>
+            </NavLink>
+          </li>
+          <li>
+            <button onClick={handleLogout} className={styles.logoutButton}>
+              <span className={styles.menuIcon}><FaSignOutAlt /></span>
+              <span className={styles.menuLabel}>Logout</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  );
+}
+
+export default SidebarAdmin;

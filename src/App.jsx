@@ -1,0 +1,150 @@
+/* VERIFICAR A RESPONSIVIDADE DE TODAS AS TELAS DO SISTEMA */
+
+/* FAZER COM QUE SE O USUARIO JA TIVER LOGADO E A CONTA DELE FOR BLOQUEADA, JA APARECER IMEDIATAMENTE A TELA DE BLOQUEADA */
+
+/*QUERO FAZER UM TESTE PARA HACKERAR MEU SISTEMA*/
+
+/* VER TIPOS DE AUTOMAÇOES PARA USAR EM SISTEMA, TIPOS DE IAS*/
+
+/*ARRUMAR TODOS HOVERS DE TODAS TELAS ADAPTAR PARA TABLETS E CELULARES */
+
+/*FAZER A TABELA DE LISTA DA TELA LOGS NO MESMO PADRAO DA TABELA DA TELA CLIENTES */
+
+/* Depois fazer para fazer relatorio de logs, logs por data selecionada e etc */
+
+/* ESPECIFICAR MELHOR ATIVIDADES RECENTES NA TELA DASHBOARD */
+
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/Scroll/ScrollToTop";
+import Spinner from "./components/Spinner/Spinner";
+import { EtapasProtectedRoutes, AuthProtectedRoutes } from "./ProtectedRoutes";
+import ProtectedRoutesAdmin from "./ProtectedRoutesAdmin";
+import { SituacaoProtectedRoutes } from "./SituacaoProtectedRoutes";
+
+const Inicial = lazy(() => import("./screens/telainicial/telainicial"));
+const Registro = lazy(() => import("./screens/telaregistro/telaregistro"));
+const Etapas = lazy(() => import("./screens/telaregistro/etapas"));
+const Login = lazy(() => import("./screens/telalogin/telalogin"));
+const RecuperarSenha = lazy(() => import("./screens/telalogin/recuperarsenha"));
+const Analise = lazy(() => import("./screens/telassituacoes/analise"));
+const Reprovado = lazy(() => import("./screens/telassituacoes/reprovado"));
+const Bloqueada = lazy(() => import("./screens/telassituacoes/bloqueada"));
+const Home = lazy(() => import("./screens/telahome/telahome"));
+const Transferencias = lazy(() => import("./screens/telatransferencias/telatransferencias"));
+
+const LoginAdmin = lazy(() => import("./screens/telaadmin/loginadmin"));
+const DashboardAdmin = lazy(() => import("./screens/telaadmin/dashboardadmin"));
+const ClientesAdmin = lazy(() => import("./screens/telaadmin/clientesadmin"));
+const AprovacoesAdmin = lazy(() => import("./screens/telaadmin/aprovacoesadmin"));
+const LogsAdmin = lazy(() => import("./screens/telaadmin/logsadmin"));
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <Suspense fallback={<Spinner />}>
+        <Routes>
+          <Route path="/" element={<Inicial />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login/recuperarsenha" element={<RecuperarSenha />} />
+
+          <Route
+            path="/login/analise"
+            element={
+              <SituacaoProtectedRoutes situacaoPermitida="analise">
+                <Analise />
+              </SituacaoProtectedRoutes>
+            }
+          />
+          <Route
+            path="/login/reprovado"
+            element={
+              <SituacaoProtectedRoutes situacaoPermitida="rejeitado">
+                <Reprovado />
+              </SituacaoProtectedRoutes>
+            }
+          />
+          <Route
+            path="/login/bloqueada"
+            element={
+              <SituacaoProtectedRoutes situacaoPermitida="bloqueado">
+                <Bloqueada />
+              </SituacaoProtectedRoutes>
+            }
+          />
+
+          <Route
+            path="/registro/etapas"
+            element={
+              <EtapasProtectedRoutes>
+                <Etapas />
+              </EtapasProtectedRoutes>
+            }
+          />
+          <Route
+            path="/registro/etapas/analise"
+            element={
+              <EtapasProtectedRoutes>
+                <Analise />
+              </EtapasProtectedRoutes>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <AuthProtectedRoutes>
+                <Home />
+              </AuthProtectedRoutes>
+            }
+          />
+          <Route
+            path="/transferencias"
+            element={
+              <AuthProtectedRoutes>
+                <Transferencias />
+              </AuthProtectedRoutes>
+            }
+          />
+
+          <Route path="/admin/loginadmin" element={<LoginAdmin />} />
+          <Route
+            path="/admin/dashboardadmin"
+            element={
+              <ProtectedRoutesAdmin>
+                <DashboardAdmin />
+              </ProtectedRoutesAdmin>
+            }
+          />
+          <Route
+            path="/admin/clientesadmin"
+            element={
+              <ProtectedRoutesAdmin>
+                <ClientesAdmin />
+              </ProtectedRoutesAdmin>
+            }
+          />
+          <Route
+            path="/admin/aprovacoesadmin"
+            element={
+              <ProtectedRoutesAdmin>
+                <AprovacoesAdmin />
+              </ProtectedRoutesAdmin>
+            }
+          />
+          <Route
+            path="/admin/logsadmin"
+            element={
+              <ProtectedRoutesAdmin>
+                <LogsAdmin />
+              </ProtectedRoutesAdmin>
+            }
+          />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
+}
+
+export default App;
