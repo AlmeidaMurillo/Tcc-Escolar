@@ -16,19 +16,26 @@ import {
 import styles from "./telahome.module.css";
 import logoheader from "../../images/logoheader.png";
 import logoheadermobile from "../../images/logoheadermobile.png";
+import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+function Home() {
   const [showBalance, setShowBalance] = useState(true);
-  const [saldo, setSaldo] = useState(null);
+  const [usuario, setUsuario] = useState(null);
+  const navigate = useNavigate();
 
-  const fetchSaldo = async () => {
+  const fetchUsuario = async () => {
     try {
       const token = localStorage.getItem("usuarioToken");
       if (!token) return;
-      const res = await axios.get("https://tcc-escolar-backend-production.up.railway.app/usuarios/meu-saldo", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setSaldo(Number(res.data.saldo));
+
+      const res = await axios.get(
+        "https://tcc-escolar-backend-production.up.railway.app/usuarios/meus-dados",
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setUsuario(res.data);
     } catch (err) {
       console.error(err);
     }
@@ -36,8 +43,19 @@ const Home = () => {
 
   useEffect(() => {
     document.title = "Home - Mercado Pago";
-    fetchSaldo();
+    fetchUsuario();
   }, []);
+
+  const handlePixClick = () => {
+    navigate("/transferencias");
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    }).format(value);
+  };
 
   const transactions = [
     { id: 1, type: "received", description: "Transferência recebida", from: "João Silva", amount: 1250.0, date: "Hoje, 14:30" },
@@ -47,10 +65,10 @@ const Home = () => {
   ];
 
   const quickActions = [
-    { icon: Send, label: "PIX", description: "Enviar ou receber" },
-    { icon: CreditCard, label: "Cartões", description: "Gerenciar cartões" },
-    { icon: Smartphone, label: "Recarregar", description: "Celular" },
-    { icon: TrendingUp, label: "Investir", description: "Fazer render" }
+    { icon: Send, label: "PIX", description: "Enviar ou receber", onClick: handlePixClick },
+    { icon: CreditCard, label: "Em Breve", description: "Gerenciar cartões" },
+    { icon: Smartphone, label: "Em Breve", description: "Celular" },
+    { icon: TrendingUp, label: "Em Breve", description: "Fazer render" }
   ];
 
   return (
@@ -87,20 +105,26 @@ const Home = () => {
                 <div className={styles.balanceInfo}>
                   <div>
                     <p className={styles.balance}>
-                      {showBalance ? (saldo != null ? `R$ ${saldo.toFixed(2)}` : "Carregando...") : "R$ ••••••"}
+                      {showBalance
+                        ? usuario != null
+                          ? formatCurrency(usuario.saldo)
+                          : "Carregando..."
+                        : "R$ ••••••"}
                     </p>
-                    <p className={styles.accountInfo}>Conta Corrente • Ag: 1234 • CC: 12345-6</p>
+                    <p className={styles.accountInfo}>
+                      {usuario ? `${usuario.nome} • Ag: 1234 • CC: 12345-6` : "Carregando..."}
+                    </p>
                   </div>
                   <div className={styles.balanceDetails}>
                     <div>
                       <p className={styles.detailLabel}>Disponível para saque</p>
                       <p className={styles.detailValue}>
-                        {showBalance ? (saldo != null ? `R$ ${saldo.toFixed(2)}` : "Carregando...") : "R$ ••••••"}
+                        {showBalance ? (usuario ? formatCurrency(usuario.saldo) : "Carregando...") : "R$ ••••••"}
                       </p>
                     </div>
                     <div>
                       <p className={styles.detailLabel}>Limite do cartão</p>
-                      <p className={styles.detailValue}>{showBalance ? "R$ 5.000,00" : "R$ ••••••"}</p>
+                      <p className={styles.detailValue}>{showBalance ? formatCurrency(5000) : "R$ ••••••"}</p>
                     </div>
                   </div>
                 </div>
@@ -111,7 +135,7 @@ const Home = () => {
               <div className={styles.cardContent}>
                 <div className={styles.quickActions}>
                   {quickActions.map((action, i) => (
-                    <button key={i} className={styles.quickActionBtn}>
+                    <button key={i} className={styles.quickActionBtn} onClick={action.onClick}>
                       <action.icon className={styles.quickActionIcon} />
                       <div>
                         <p className={styles.quickActionLabel}>{action.label}</p>
@@ -144,7 +168,7 @@ const Home = () => {
                         </div>
                       </div>
                       <p className={`${styles.transactionAmount} ${t.amount > 0 ? styles.positive : styles.negative}`}>
-                        {t.amount > 0 ? "+" : ""}R$ {Math.abs(t.amount).toFixed(2).replace(".", ",")}
+                        {t.amount > 0 ? "+" : "-"}{formatCurrency(Math.abs(t.amount))}
                       </p>
                     </div>
                   ))}
@@ -163,7 +187,7 @@ const Home = () => {
                   </div>
                   <CreditCard className={styles.icon} />
                 </div>
-                <p className={styles.cardHolder}>USUÁRIO DA SILVA</p>
+                <p className={styles.cardHolder}>{usuario ? usuario.nome : "Carregando..."}</p>
                 <button className={styles.fullBtn}><PlusCircle className={styles.smallIcon} /> Pedir novo cartão</button>
               </div>
             </div>
@@ -171,7 +195,7 @@ const Home = () => {
               <div className={styles.cardHeader}><h2 className={styles.cardTitle}><TrendingUp className={styles.smallIcon} /> Investimentos</h2></div>
               <div className={styles.cardContent}>
                 <div>
-                  <div className={styles.sidebarRow}><span>Total investido</span><span>{showBalance ? (saldo != null ? `R$ ${saldo.toFixed(2)}` : "Carregando...") : "R$ ••••••"}</span></div>
+                  <div className={styles.sidebarRow}><span>Total investido</span><span>{showBalance ? (usuario ? formatCurrency(usuario.saldo) : "Carregando...") : "R$ ••••••"}</span></div>
                   <div className={styles.sidebarRow}><span>Rendimento mensal</span><span className={styles.positive}>{showBalance ? "+R$ 127,50" : "+R$ ••••••"}</span></div>
                   <div className={styles.sidebarRow}><span>CDI hoje</span><span>11,75%</span></div>
                 </div>
@@ -184,7 +208,7 @@ const Home = () => {
                 <div>
                   <div className={styles.sidebarRow}><span>Viagem de férias</span><span>67%</span></div>
                   <div className={styles.progressBar}><div style={{ width: "67%" }}></div></div>
-                  <div className={styles.sidebarRow}><span>Valor acumulado</span><span>R$ 3.350,00</span></div>
+                  <div className={styles.sidebarRow}><span>Valor acumulado</span><span>{formatCurrency(3350)}</span></div>
                 </div>
                 <button className={styles.fullBtn}>Editar meta</button>
               </div>

@@ -31,6 +31,7 @@ const Analise = lazy(() => import("./screens/telassituacoes/analise"));
 const Reprovado = lazy(() => import("./screens/telassituacoes/reprovado"));
 const Bloqueada = lazy(() => import("./screens/telassituacoes/bloqueada"));
 const Home = lazy(() => import("./screens/telahome/telahome"));
+const Transferencias = lazy(() => import("./screens/telatransferencias/telatransferencias"));
 
 const LoginAdmin = lazy(() => import("./screens/telaadmin/loginadmin"));
 const DashboardAdmin = lazy(() => import("./screens/telaadmin/dashboardadmin"));
@@ -95,6 +96,14 @@ function App() {
             element={
               <AuthProtectedRoutes>
                 <Home />
+              </AuthProtectedRoutes>
+            }
+          />
+          <Route
+            path="/transferencias"
+            element={
+              <AuthProtectedRoutes>
+                <Transferencias />
               </AuthProtectedRoutes>
             }
           />

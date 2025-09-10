@@ -1,10 +1,10 @@
 .container {
   min-height: 100vh;
-  background: var(--background);
+  background: #f9f9f9;
 }
 
 .header {
-  background: linear-gradient(135deg, #FFE600 0%, #FFF3A0 100%);
+  background: linear-gradient(135deg, #ffe600 0%, #fff3a0 100%);
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   padding: 1rem 0;
 }
@@ -58,21 +58,13 @@
 }
 
 @media (max-width: 480px) {
-  .logoheader {
-      display: none;
-  }
-  .logoheadermobile {
-      display: block;
-  }
+  .logoheader { display: none; }
+  .logoheadermobile { display: block; }
 }
 
 @media (min-resolution: 3dppx) and (hover: hover) and (pointer: fine) {
-  .logoheader {
-      display: none;
-  }
-  .logoheadermobile {
-      display: block;
-  }
+  .logoheader { display: none; }
+  .logoheadermobile { display: block; }
 }
 
 /* User Info */
@@ -101,7 +93,7 @@
 
 .avatarFallback {
   background: white;
-  color: var(--primary);
+  color: #007bff;
   font-weight: 600;
   font-size: 0.875rem;
 }
@@ -123,7 +115,7 @@
 }
 
 .iconBtn {
-  background: #009EE3;
+  background: #007bff;
   border: 1px solid rgba(255,255,255,0.2);
   color: white;
   padding: 0.5rem;
@@ -133,8 +125,8 @@
 }
 
 .iconBtn:hover {
-  background: white;
-  color: var(--primary);
+  background: #ffb703;
+  color: #1e3a8a;
 }
 
 .icon {
@@ -173,6 +165,13 @@
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: scale(1.01);
 }
 
 .cardHeader {
@@ -201,21 +200,22 @@
   width: 2rem;
   height: 2rem;
   border-radius: 0.5rem;
-  background: var(--muted);
+  background: #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .toggleBtn:hover {
-  background: var(--muted-foreground);
+  background: #6b7280;
   color: white;
 }
 
 .linkBtn {
   font-size: 0.875rem;
-  color: var(--primary);
+  color: #007bff;
   background: none;
   border: none;
   cursor: pointer;
@@ -241,7 +241,7 @@
 
 .accountInfo {
   font-size: 0.875rem;
-  color: var(--muted-foreground);
+  color: #6b7280;
 }
 
 .balanceDetails {
@@ -249,12 +249,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #d1d5db;
 }
 
 .detailLabel {
   font-size: 0.875rem;
-  color: var(--muted-foreground);
+  color: #6b7280;
 }
 
 .detailValue {
@@ -282,20 +282,21 @@
   flex-direction: column;
   gap: 0.5rem;
   border-radius: 0.5rem;
-  background: var(--muted);
+  background: #e5e7eb;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .quickActionBtn:hover {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  background: var(--muted-foreground);
+  background: #6b7280;
   color: white;
 }
 
 .quickActionIcon {
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--primary);
+  color: #007bff;
 }
 
 .quickActionLabel {
@@ -305,7 +306,7 @@
 
 .quickActionDesc {
   font-size: 0.75rem;
-  color: var(--muted-foreground);
+  color: #6b7280;
 }
 
 /* Transactions */
@@ -322,6 +323,7 @@
   padding: 0.75rem;
   border-radius: 0.5rem;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .transaction:hover {
@@ -354,7 +356,7 @@
 
 .transactionSub {
   font-size: 0.75rem;
-  color: var(--muted-foreground);
+  color: #6b7280;
 }
 
 .transactionAmount {
@@ -379,6 +381,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 .cardNumber {
@@ -394,10 +397,11 @@
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background: var(--primary);
+  background: #007bff;
   color: white;
   font-weight: 600;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .fullBtn:hover {
@@ -418,14 +422,15 @@
 
 .progressBar {
   width: 100%;
-  background: var(--muted);
+  background: #e5e7eb;
   border-radius: 9999px;
   height: 0.5rem;
   margin-top: 0.5rem;
 }
 
 .progressBar div {
-  background: var(--primary);
+  background: #007bff;
   height: 100%;
   border-radius: 9999px;
 }
+  
