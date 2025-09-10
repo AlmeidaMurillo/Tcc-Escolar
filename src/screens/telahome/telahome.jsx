@@ -11,7 +11,7 @@ import {
   TrendingUp,
   ArrowUpRight,
   ArrowDownLeft,
-  MoreHorizontal
+  LogOut
 } from "lucide-react";
 import styles from "./telahome.module.css";
 import logoheader from "../../images/logoheader.png";
@@ -22,6 +22,53 @@ function Home() {
   const [showBalance, setShowBalance] = useState(true);
   const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const token = localStorage.getItem("usuarioToken");
+        const res = await axios.get(
+          "https://tcc-escolar-backend-production.up.railway.app/transferencias/meus",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        const { enviadas, recebidas } = res.data;
+
+        const todas = [
+          ...enviadas.map(t => ({
+            id: t.id,
+            type: "sent",
+            description: "PIX enviado",
+            to: t.nome,
+            amount: -parseFloat(t.valor),
+            date: t.data 
+          })),
+          ...recebidas.map(t => ({
+            id: t.id,
+            type: "received",
+            description: "Transferência recebida",
+            from: t.nome,
+            amount: parseFloat(t.valor),
+            date: t.data
+          }))
+        ];
+
+        todas.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const todasFormatadas = todas.map(t => ({
+          ...t,
+          displayDate: new Date(t.date).toLocaleString("pt-BR")
+        }));
+
+        setTransactions(todasFormatadas);
+      } catch (err) {
+        console.error("Erro ao buscar transações:", err);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
 
   const fetchUsuario = async () => {
     try {
@@ -57,12 +104,6 @@ function Home() {
     }).format(value);
   };
 
-  const transactions = [
-    { id: 1, type: "received", description: "Transferência recebida", from: "João Silva", amount: 1250.0, date: "Hoje, 14:30" },
-    { id: 2, type: "sent", description: "PIX enviado", to: "Maria Santos", amount: -85.5, date: "Hoje, 10:15" },
-    { id: 3, type: "card", description: "Compra no cartão", merchant: "Supermercado ABC", amount: -156.78, date: "Ontem, 18:45" },
-    { id: 4, type: "investment", description: "Rendimento de investimento", product: "CDB Premium", amount: 45.3, date: "Ontem, 09:00" }
-  ];
 
   const quickActions = [
     { icon: Send, label: "PIX", description: "Enviar ou receber", onClick: handlePixClick },
@@ -70,6 +111,12 @@ function Home() {
     { icon: Smartphone, label: "Em Breve", description: "Celular" },
     { icon: TrendingUp, label: "Em Breve", description: "Fazer render" }
   ];
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("usuarioToken");
+    localStorage.removeItem("usuarioToken");
+    navigate("/login");
+  };
 
   return (
     <div className={styles.container}>
@@ -84,7 +131,7 @@ function Home() {
             </div>
             <div className={styles.actions}>
               <button className={styles.iconBtn}><Bell className={styles.icon} /></button>
-              <button className={styles.iconBtn}><MoreHorizontal className={styles.icon} /></button>
+              <button className={styles.iconBtn} onClick={handleLogout}><LogOut className={styles.icon} />Logout</button>
             </div>
           </nav>
         </div>
@@ -159,12 +206,10 @@ function Home() {
                         <div className={`${styles.transactionIcon} ${styles[t.type]}`}>
                           {t.type === "received" && <ArrowDownLeft className={styles.icon} />}
                           {t.type === "sent" && <ArrowUpRight className={styles.icon} />}
-                          {t.type === "card" && <CreditCard className={styles.icon} />}
-                          {t.type === "investment" && <TrendingUp className={styles.icon} />}
                         </div>
                         <div>
                           <p className={styles.transactionDesc}>{t.description}</p>
-                          <p className={styles.transactionSub}>{t.from || t.to || t.merchant || t.product} • {t.date}</p>
+                          <p className={styles.transactionSub}>{t.from || t.to} • {t.displayDate}</p>
                         </div>
                       </div>
                       <p className={`${styles.transactionAmount} ${t.amount > 0 ? styles.positive : styles.negative}`}>

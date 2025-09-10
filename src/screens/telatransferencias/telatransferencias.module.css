@@ -264,3 +264,124 @@
   background: #218838;
 }
 
+
+
+.valorContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 5px 5px 5px; 
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.userName {
+  font-weight: bold;
+  color: #333;
+}
+
+.userCpf {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.inputValor {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.inputValor input {
+  border: none;
+  font-size: 2rem;
+  text-align: center;
+  outline: none;
+  width: 100%;
+}
+
+.textInput {
+  width: 92%;
+}
+
+.alert {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.titulotransferencia {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.75rem;
+}
+
+
+.sucessoContent {
+  text-align: center;
+  margin-top: 40px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.sucessoBox {
+  background: #e6ffed;
+  border: 2px solid #00c851;
+  padding: 30px;
+  border-radius: 16px;
+  display: inline-block;
+  margin-bottom: 20px;
+  animation: bounceIn 0.8s ease;
+}
+
+.sucessoIcon {
+  color: #00c851;
+  margin-bottom: 10px;
+}
+
+.comprovante {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.comprovante h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
