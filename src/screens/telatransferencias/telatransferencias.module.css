@@ -5,7 +5,7 @@
 
 .header {
   background: linear-gradient(135deg, #ffe600 0%, #fff3a0 100%);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   padding: 1rem 0;
 }
 
@@ -58,13 +58,23 @@
 }
 
 @media (max-width: 480px) {
-  .logoheader { display: none; }
-  .logoheadermobile { display: block; }
+  .logoheader {
+    display: none;
+  }
+
+  .logoheadermobile {
+    display: block;
+  }
 }
 
 @media (min-resolution: 3dppx) and (hover: hover) and (pointer: fine) {
-  .logoheader { display: none; }
-  .logoheadermobile { display: block; }
+  .logoheader {
+    display: none;
+  }
+
+  .logoheadermobile {
+    display: block;
+  }
 }
 
 
@@ -74,7 +84,7 @@
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .mainContent h2 {
@@ -95,14 +105,16 @@
   margin-bottom: 1.5rem;
 }
 
-.selectInput, .textInput {
+.selectInput,
+.textInput {
   padding: 0.75rem 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
 }
 
-.selectInput:focus, .textInput:focus {
+.selectInput:focus,
+.textInput:focus {
   outline: none;
   border-color: #ffe600;
   box-shadow: 0 0 5px #ffe600;
@@ -157,7 +169,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   transition: border-color 0.3s;
 }
 
@@ -180,7 +192,7 @@
   width: 100%;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   margin-top: 0.5rem;
   z-index: 10;
   overflow: hidden;
@@ -203,7 +215,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,7 +229,7 @@
   width: 90%;
   max-width: 400px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .modalContent h3 {
@@ -238,7 +250,8 @@
   margin-top: 1.5rem;
 }
 
-.buttonCancelar, .buttonConfirmar {
+.buttonCancelar,
+.buttonConfirmar {
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: bold;
@@ -270,7 +283,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px 5px 5px 5px; 
+  padding: 5px 5px 5px 5px;
 }
 
 .userInfo {
@@ -338,7 +351,6 @@
   padding-bottom: 0.75rem;
 }
 
-
 .sucessoContent {
   text-align: center;
   margin-top: 40px;
@@ -367,7 +379,7 @@
   max-width: 400px;
   margin: 0 auto;
   text-align: left;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .comprovante h3 {
@@ -376,12 +388,29 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes bounceIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  60% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

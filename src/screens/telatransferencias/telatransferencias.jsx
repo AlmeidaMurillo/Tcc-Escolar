@@ -66,17 +66,17 @@ function Transferencias() {
         setErro("Nenhum usuário encontrado com esses dados.");
       }
     } catch (err) {
-      setErro("Erro ao buscar usuário.", err);
+      setErro("Erro ao buscar usuário.");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-
   const realizarPix = async () => {
     if (!transferValue || parseFloat(transferValue) < 0.01) {
-      alert("Informe um valor maior que R$ 0,01")
-      return
+      alert("Informe um valor maior que R$ 0,01");
+      return;
     }
 
     try {
@@ -89,7 +89,7 @@ function Transferencias() {
           motivo,
         },
         { headers: { Authorization: `Bearer ${token}` } }
-      )
+      );
 
       const novoComprovante = {
         nome: usuario.nome,
@@ -99,19 +99,19 @@ function Transferencias() {
         valor: parseFloat(transferValue),
         motivo,
         dataHora: new Date().toLocaleString("pt-BR"),
-      }
+      };
 
-      setComprovante(novoComprovante)
-      setStep("sucesso")
-      setSaldo((prev) => prev - parseFloat(transferValue))
+      setComprovante(novoComprovante);
+      setStep("sucesso");
+      setSaldo((prev) => prev - parseFloat(transferValue));
     } catch (err) {
-      console.error("Erro ao fazer Pix:", err)
+      console.error("Erro ao fazer Pix:", err);
       alert(
         err.response?.data?.error ||
-        "Erro ao realizar transferência, tente novamente."
-      )
+          "Erro ao realizar transferência, tente novamente."
+      );
     }
-  }
+  };
 
   useEffect(() => {
     const fetchSaldo = async () => {
@@ -222,10 +222,18 @@ function Transferencias() {
               <div className={styles.modalOverlay}>
                 <div className={styles.modalContent}>
                   <h3>Confirme a transferência</h3>
-                  <p><b>Nome:</b> {usuario.nome}</p>
-                  <p><b>Email:</b> {usuario.email}</p>
-                  <p><b>Telefone:</b> {usuario.telefone}</p>
-                  <p><b>CPF:</b> {usuario.cpf}</p>
+                  <p>
+                    <b>Nome:</b> {usuario.nome}
+                  </p>
+                  <p>
+                    <b>Email:</b> {usuario.email}
+                  </p>
+                  <p>
+                    <b>Telefone:</b> {usuario.telefone}
+                  </p>
+                  <p>
+                    <b>CPF:</b> {usuario.cpf}
+                  </p>
                   <div className={styles.modalButtons}>
                     <button
                       className={styles.buttonCancelar}
@@ -273,7 +281,9 @@ function Transferencias() {
                   placeholder="0,00"
                 />
               </div>
-              <p className={styles.alert}>{formatCurrency(saldo)} Disponíveis</p>
+              <p className={styles.alert}>
+                {formatCurrency(saldo)} Disponíveis
+              </p>
               <input
                 type="text"
                 placeholder="Motivo (opcional)"
@@ -309,13 +319,29 @@ function Transferencias() {
 
             <div className={styles.comprovante}>
               <h3>Comprovante Pix</h3>
-              <p><b>Nome:</b> {comprovante.nome}</p>
-              <p><b>CPF:</b> {comprovante.cpf}</p>
-              <p><b>Email:</b> {comprovante.email}</p>
-              <p><b>Telefone:</b> {comprovante.telefone}</p>
-              <p><b>Valor:</b> {formatCurrency(comprovante.valor)}</p>
-              {comprovante.motivo && <p><b>Motivo:</b> {comprovante.motivo}</p>}
-              <p><b>Data:</b> {comprovante.dataHora}</p>
+              <p>
+                <b>Nome:</b> {comprovante.nome}
+              </p>
+              <p>
+                <b>CPF:</b> {comprovante.cpf}
+              </p>
+              <p>
+                <b>Email:</b> {comprovante.email}
+              </p>
+              <p>
+                <b>Telefone:</b> {comprovante.telefone}
+              </p>
+              <p>
+                <b>Valor:</b> {formatCurrency(comprovante.valor)}
+              </p>
+              {comprovante.motivo && (
+                <p>
+                  <b>Motivo:</b> {comprovante.motivo}
+                </p>
+              )}
+              <p>
+                <b>Data:</b> {comprovante.dataHora}
+              </p>
               <button
                 className={styles.buttonConfirmar}
                 onClick={() => {

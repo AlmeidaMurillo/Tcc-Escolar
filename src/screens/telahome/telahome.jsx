@@ -103,8 +103,6 @@ function Home() {
       currency: "BRL"
     }).format(value);
   };
-
-
   const quickActions = [
     { icon: Send, label: "PIX", description: "Enviar ou receber", onClick: handlePixClick },
     { icon: CreditCard, label: "Em Breve", description: "Gerenciar cartões" },
@@ -153,9 +151,7 @@ function Home() {
                   <div>
                     <p className={styles.balance}>
                       {showBalance
-                        ? usuario != null
-                          ? formatCurrency(usuario.saldo)
-                          : "Carregando..."
+                        ? usuario ? formatCurrency(usuario.saldo) : "Carregando..."
                         : "R$ ••••••"}
                     </p>
                     <p className={styles.accountInfo}>
