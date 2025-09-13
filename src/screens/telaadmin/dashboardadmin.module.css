@@ -219,22 +219,6 @@
   background-color: #ffe066;
 }
 
-.quickActionBlue {
-  background-color: #2563eb;
-}
-
-.quickActionBlue:hover {
-  background-color: #1d4ed8;
-}
-
-.quickActionGreen {
-  background-color: #22c55e;
-}
-
-.quickActionGreen:hover {
-  background-color: #16a34a;
-}
-
 .quickActionPurple {
   background-color: #a855f7;
 }

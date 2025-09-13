@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaUserPlus, FaDownload, FaLock, FaUnlock, FaEllipsisV } from "react-icons/fa";
+import { FaDownload, FaLock, FaUnlock, FaEllipsisV } from "react-icons/fa";
 import styles from "./clientesadmin.module.css";
 import SidebarAdmin from "../../components/SideBarAdmin/sidebaradmin";
 import axios from "axios";
@@ -76,9 +76,6 @@ function ClientesAdmin() {
                     </select>
                     <button className={styles.exportButton}>
                         <FaDownload /> Exportar
-                    </button>
-                    <button className={styles.newClientButton}>
-                        <FaUserPlus /> Novo Cliente
                     </button>
                 </div>
                 <div className={styles.tableContainer}>

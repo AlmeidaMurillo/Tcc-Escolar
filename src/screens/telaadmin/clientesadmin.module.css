@@ -54,8 +54,7 @@
   box-sizing: border-box;
 }
 
-.exportButton,
-.newClientButton {
+.exportButton {
   border: none;
   padding: clamp(0.6rem, 1.5vw, 0.85rem) clamp(1rem, 2vw, 1.3rem);
   border-radius: 0.5rem;
@@ -76,15 +75,6 @@
 
 .exportButton:hover {
   background-color: #1d4ed8;
-}
-
-.newClientButton {
-  background-color: #ffd600;
-  color: #18181b;
-}
-
-.newClientButton:hover {
-  background-color: #ffe066;
 }
 
 .tableContainer {
