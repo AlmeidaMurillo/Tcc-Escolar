@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaCheck, FaTimes, FaFileExport, FaExclamationTriangle, FaEdit, FaTrash } from "react-icons/fa";
+import { FaCheck, FaTimes, FaFileExport, FaExclamationTriangle, FaTrash } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -122,6 +122,34 @@ function AprovacoesAdmin() {
     return matchesName;
   });
 
+  async function handleAnalysis(userId) {
+    try {
+      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${userId}/analise`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers(prev =>
+        prev.map(u => u.id === userId ? { ...u, status: "pending", situacao: "analise" } : u)
+      );
+    } catch (err) {
+      console.error("Erro ao colocar usuário em análise:", err);
+    }
+  }
+
+  async function handleDelete(userId) {
+    if (!window.confirm("Tem certeza que deseja deletar este usuário?")) return;
+
+    try {
+      await fetch(`https://tcc-escolar-backend-production.up.railway.app/usuarios/${userId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers(prev => prev.filter(u => u.id !== userId));
+    } catch (err) {
+      console.error("Erro ao deletar usuário:", err);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <SidebarAdmin />
@@ -194,14 +222,18 @@ function AprovacoesAdmin() {
                   });
                   setUsers(prev => prev.map(u => u.id === user.id ? { ...u, status: "rejected", situacao: "rejeitado", selected: false } : u));
                 }}><FaTimes /> Rejeitar</button>
-                <button className={`${styles.cardBtn} ${styles.analysis}`} onClick={() => alert(`Usuario Colocado Em Análise: ${user.nome}`)}>
+                <button
+                  className={`${styles.cardBtn} ${styles.analysis}`}
+                  onClick={() => handleAnalysis(user.id)}
+                >
                   <FaExclamationTriangle /> Análise
                 </button>
-                <button className={`${styles.cardBtn} ${styles.edit}`} onClick={() => alert(`Editar dados de ${user.nome}`)}>
-                  <FaEdit />
-                </button>
-                <button className={`${styles.cardBtn} ${styles.delete}`} onClick={() => alert(`Apagar dados de ${user.nome}`)}>
-                  <FaTrash />
+
+                <button
+                  className={`${styles.cardBtn} ${styles.delete}`}
+                  onClick={() => handleDelete(user.id)}
+                >
+                  <FaTrash /> Deletar
                 </button>
               </div>
             </div>

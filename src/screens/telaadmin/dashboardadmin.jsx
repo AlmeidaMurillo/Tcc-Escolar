@@ -11,8 +11,24 @@ function DashboardAdmin() {
     const [totalBloqueados, setTotalBloqueados] = useState(0);
     const [totalRejeitados, setTotalRejeitados] = useState(0);
     const [logsRecentes, setLogsRecentes] = useState([]);
+    const [volumeTransacoes, setVolumeTransacoes] = useState(0);
     const navigate = useNavigate();
     const token = localStorage.getItem("adminToken");
+
+    useEffect(() => {
+        async function fetchVolumeTransacoes() {
+            try {
+                const res = await fetch("https://tcc-escolar-backend-production.up.railway.app/transferencias/volume", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
+                setVolumeTransacoes(data.total);
+            } catch (err) {
+                console.error("Erro ao buscar volume de transações:", err);
+            }
+        }
+        fetchVolumeTransacoes();
+    }, [token]);
 
     useEffect(() => {
         async function fetchLogsRecentes() {
@@ -132,7 +148,9 @@ function DashboardAdmin() {
                         <div className={styles.statCardContent}>
                             <div className={styles.statInfo}>
                                 <span className={styles.statTitle}>Volume Transações</span>
-                                <span className={styles.statValue}>R$ 1.100,50</span>
+                                <span className={styles.statValue}>
+                                    {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(volumeTransacoes)}
+                                </span>
                             </div>
                             <span className={`${styles.statIcon} ${styles.statIconGreen}`}><FaDollarSign /></span>
                         </div>
